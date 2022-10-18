@@ -1,0 +1,18 @@
+{
+    "name": "1.0/mzq",
+    "autoload": {
+        "psr-4": {
+            "10\\Mzq\\": "public/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mzq",
+            "email": "mazuqiang@lane.com"
+        }
+    ],
+    "require": {
+        "jcupitt/vips": "^2.0",
+        "codeguy/upload": "^1.3"
+    }
+}
