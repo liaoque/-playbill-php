@@ -6,7 +6,7 @@ namespace AppResponse;
 class AppResponse
 {
 
-    public static function success($data)
+    public static function success($data = [])
     {
         return self::getView()->assign([
             'code' => 0,

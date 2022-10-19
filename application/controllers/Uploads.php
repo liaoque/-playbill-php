@@ -27,16 +27,20 @@ class UploadsController extends \Yaf_Controller_Abstract
         ));
 
 //        // Access data about the file that has been uploaded
-//        $data = array(
-//            'name' => $file->getNameWithExtension(),
-//            'extension' => $file->getExtension(),
-//            'mime' => $file->getMimetype(),
-//            'size' => $file->getSize(),
-//            'md5' => $file->getMd5(),
-//            'dimensions' => $file->getDimensions()
-//        );
+
+
+        $nameWithExtension = $file->getNameWithExtension();
+        $url = Yaf_Dispatcher::getInstance()->getApplication()->getConfig()->get('application.base_host');
+        $data = array(
+            'name' => $file->getNameWithExtension(),
+            'extension' => $file->getExtension(),
+            'mime' => $file->getMimetype(),
+            'size' => $file->getSize(),
+            'url' => "{$url}/upload/{$nameWithExtension}",
+            'dimensions' => $file->getDimensions()
+        );
 
         $file->upload();
-
+        return $this->getView()->assign($data);
     }
 }

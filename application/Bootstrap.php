@@ -22,7 +22,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
             YAF_ERR_AUTOLOAD_FAILED | YAF_ERR_NOTFOUND_MODULE | YAF_ERR_NOTFOUND_CONTROLLER | YAF_ERR_NOTFOUND_ACTION
             | YAF_ERR_NOTFOUND_VIEW | YAF_ERR_CALL_FAILED | YAF_ERR_TYPE_ERROR);
 
-        set_exception_handler(function (\Exception $e){
+        set_exception_handler(function ( $e){
 
             echo json_encode([
                 'code' => -1,
@@ -66,4 +66,16 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         }
         $dispatcher->setView(Yaf_Registry::get(JsonView::class));
     }
+
+    public function _initDatabase(Yaf_Dispatcher $dispatcher)
+    {
+        if (!Yaf_Registry::has('Manager')) {
+            $manager = new MongoDB\Driver\Manager('mongodb://192.168.1.130:27017');
+
+
+            Yaf_Registry::set(MongoDB\Driver\Manager::class, $manager);
+        }
+//        $dispatcher->setView(Yaf_Registry::get(JsonView::class));
+    }
+
 }
