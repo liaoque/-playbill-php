@@ -71,8 +71,6 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     {
         if (!Yaf_Registry::has('Manager')) {
             $manager = new MongoDB\Driver\Manager('mongodb://192.168.1.130:27017');
-
-
             Yaf_Registry::set(MongoDB\Driver\Manager::class, $manager);
         }
 //        $dispatcher->setView(Yaf_Registry::get(JsonView::class));
