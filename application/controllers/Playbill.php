@@ -1,6 +1,7 @@
 <?php
 
 use Jcupitt\Vips;
+use Jcupitt\Vips\Image;
 
 class PlaybillController extends Yaf_Controller_Abstract
 {
@@ -45,6 +46,7 @@ class PlaybillController extends Yaf_Controller_Abstract
      * @param int $id
      * @throws Yaf_Exception
      * @throws \MongoDB\Driver\Exception\Exception
+     * @throws Vips\Exception
      */
     public function viewAction($id = 0)
     {
@@ -55,30 +57,29 @@ class PlaybillController extends Yaf_Controller_Abstract
             '_id' => new \MongoDB\BSON\ObjectId($id)
         ]);
         $rows = $this->manager->executeQuery('playbill.poster', $query);
+//var_dump($rows->toArray());exit();
+        $data = $rows->toArray()[0];
 
-        foreach ($rows as $row){
-            $this->loadJson($row->data);
 
+
+//
+//        $image = Image::black(375, 667)->newFromImage([255, 255, 255]);
+//        $text = Vips\Image::text('Hello world!', [
+//            'font' => 'sans 160',
+//            'width' => 10
+//        ]);
+//        $red = $text->newFromImage([255, 0, 0])->copy(['interpretation' => 'srgb']);
+//        $overlay = $red->bandjoin($text);
+//        $out = $image->composite($overlay, "over", ['x' => 10, 'y' => 10]);
+
+        $out = \PlayBill\Factory::load($data);
+
+        if ($out) {
+            $writeToBuffer = $out->writeToFile('tiny2.jpg');
+//            $writeToBuffer = $out->writeToBuffer('tiny.jpg');
         }
-    }
-
-
-    public function loadJson($data){
-        $image = Vips\Image::newFromArray([[1, 2, 3], [4, 5, 6]]);
-        $image = $image->linear(1, 1);
-
-        $objects = $data->objects;
-        $backgroundImage = $data->backgroundImage;
-        var_dump(($backgroundImage));
-//        foreach ($objects as $value ){
-//            foreach ($value as $key => $value2 ){
-//                if(!isset($backgroundImage->$key)){
-//                    var_dump($key);
-//                }
-//            }
-//        }
-
-
+//        var_dump("data:image/jpeg;base64,".base64_encode($writeToBuffer));
+        exit();
     }
 
 

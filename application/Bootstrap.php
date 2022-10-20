@@ -1,4 +1,8 @@
 <?php
+
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerTrait;
+
 include_once "../vendor/autoload.php";
 
 /* bootstrap class should be defined under ./application/Bootstrap.php */
@@ -6,6 +10,30 @@ include_once "../vendor/autoload.php";
 
 class Bootstrap extends Yaf_Bootstrap_Abstract
 {
+
+    public function _initLog()
+    {
+        Jcupitt\Vips\Config::setLogger(new class implements LoggerInterface {
+            use LoggerTrait;
+
+            /**
+             * Logs with an arbitrary level.
+             *
+             * @param mixed $level
+             * @param string $message
+             * @param array $context
+             *
+             * @return void
+             */
+            public function log($level, $message, array $context = array()): void
+            {
+                // Do logging logic here.
+                $appDirectory = Yaf_Dispatcher::getInstance()->getApplication()->getAppDirectory();
+                file_put_contents($appDirectory.'../storage/logs/error.log', "[$level]：$message---" . json_encode($context));
+//                var_dump(json_encode([$level, $message, $context]) );
+            }
+        });
+    }
 
     public function _initConfig()
     {
@@ -22,7 +50,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
             YAF_ERR_AUTOLOAD_FAILED | YAF_ERR_NOTFOUND_MODULE | YAF_ERR_NOTFOUND_CONTROLLER | YAF_ERR_NOTFOUND_ACTION
             | YAF_ERR_NOTFOUND_VIEW | YAF_ERR_CALL_FAILED | YAF_ERR_TYPE_ERROR);
 
-        set_exception_handler(function ( $e){
+        set_exception_handler(function ($e) {
 
             echo json_encode([
                 'code' => -1,
