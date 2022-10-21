@@ -29,8 +29,7 @@ class Background extends AbstractComponent implements ComponentInterface
         if ($src) {
             $file_get_contents = file_get_contents($src);
 
-            $im = Image::newFromBuffer($file_get_contents);
-//            $im->
+            $im = Image::newFromBuffer($file_get_contents)->multiply([1, 1, 1, 0.3]);
 
             $image = $image->composite($im, "over", [
                 'x' => 0, 'y' => 0
