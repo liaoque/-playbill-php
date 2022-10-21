@@ -2,31 +2,19 @@
 
 class ErrorController extends \Yaf_Controller_Abstract
 {
-
+    /**
+     * @throws Yaf_Exception_TypeError
+     */
     public function indexAction()
     {
-        $this->display('403 forbidden');
-        return false;
-    }
+        $appDirectory = Yaf_Dispatcher::getInstance()->getApplication()->getAppDirectory();
+        preg_match('/\d+/', $this->getRequest()->getRequestUri(), $data);
 
-    public function errorAction()
-    {
-        $exception = $this->getRequest()->getException();
-        try {
-            throw $exception;
-        } catch (Yaf_Exception_LoadFailed $e) {
-
-//
-
-//加载失败
-            $this->getView()->assign("code", $exception->getCode());
-            $this->getView()->assign("message", $exception->getMessage());
-        } catch (Yaf_Exception $e) {
-
-//其他错误
-            $this->getView()->assign("code", $exception->getCode());
-            $this->getView()->assign("message", $exception->getMessage());
+        if (!($this->getView() instanceof Yaf_View_Simple)) {
+            $yafViewSimple = new Yaf_View_Simple($appDirectory . '/views');
+            Yaf_Dispatcher::getInstance()->setView($yafViewSimple);
         }
-
+        $this->getView()->assign("code", $data[0]);
     }
+
 }

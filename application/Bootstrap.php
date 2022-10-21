@@ -13,26 +13,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 
     public function _initLog()
     {
-        Jcupitt\Vips\Config::setLogger(new class implements LoggerInterface {
-            use LoggerTrait;
-
-            /**
-             * Logs with an arbitrary level.
-             *
-             * @param mixed $level
-             * @param string $message
-             * @param array $context
-             *
-             * @return void
-             */
-            public function log($level, $message, array $context = array()): void
-            {
-                // Do logging logic here.
-                $appDirectory = Yaf_Dispatcher::getInstance()->getApplication()->getAppDirectory();
-                file_put_contents($appDirectory.'../storage/logs/error.log', "[$level]：$message---" . json_encode($context));
-//                var_dump(json_encode([$level, $message, $context]) );
-            }
-        });
+        Jcupitt\Vips\Config::setLogger(new Logger);
     }
 
     public function _initConfig()
@@ -46,12 +27,12 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         $dispatcher->setErrorHandler(function () {
             var_dump("捕獲錯誤");
             var_dump(func_get_args());
+            exit();
         }, YAF_ERR_STARTUP_FAILED | YAF_ERR_ROUTE_FAILED | YAF_ERR_DISPATCH_FAILED |
             YAF_ERR_AUTOLOAD_FAILED | YAF_ERR_NOTFOUND_MODULE | YAF_ERR_NOTFOUND_CONTROLLER | YAF_ERR_NOTFOUND_ACTION
             | YAF_ERR_NOTFOUND_VIEW | YAF_ERR_CALL_FAILED | YAF_ERR_TYPE_ERROR);
 
         set_exception_handler(function ($e) {
-
             echo json_encode([
                 'code' => -1,
                 'message' => $e->getMessage(),
@@ -89,6 +70,9 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 
     public function _initView(Yaf_Dispatcher $dispatcher)
     {
+        if ($dispatcher->getRequest()->getControllerName() == 'error') {
+            return;
+        }
         if (!Yaf_Registry::has(JsonView::class)) {
             Yaf_Registry::set(JsonView::class, new JsonView());
         }

@@ -3,7 +3,9 @@
 namespace PlayBill\Component;
 
 
+use Jcupitt\Vips\Image;
+
 interface ComponentInterface
 {
-    public function run();
+    public function run(Image $image);
 }

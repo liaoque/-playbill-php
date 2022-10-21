@@ -3,6 +3,7 @@ namespace PlayBill\Component;
 
 
 use Jcupitt\Vips;
+use Jcupitt\Vips\Image;
 
 class Rect implements ComponentInterface
 {
@@ -10,7 +11,7 @@ class Rect implements ComponentInterface
      * @return Vips\Image
      * @throws Vips\Exception
      */
-    public function run(){
+    public function run(Image $image){
         $text = Vips\Image::text('Hello world!', [
             'font' => 'sans 30',
             'width' => $this->options->width
