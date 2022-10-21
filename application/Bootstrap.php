@@ -82,7 +82,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     public function _initDatabase(Yaf_Dispatcher $dispatcher)
     {
         if (!Yaf_Registry::has('Manager')) {
-            $manager = new MongoDB\Driver\Manager('mongodb://192.168.1.130:27017');
+            $manager = new MongoDB\Driver\Manager(Yaf_Registry::get("config")->get('application.database'));
             Yaf_Registry::set(MongoDB\Driver\Manager::class, $manager);
         }
 //        $dispatcher->setView(Yaf_Registry::get(JsonView::class));

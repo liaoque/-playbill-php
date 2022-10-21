@@ -43,9 +43,10 @@ class JsonView implements Yaf_View_Interface
         // TODO: Implement display() method.
     }
 
-    function getScriptPath()
+    function getScriptPath($request = null)
     {
         // TODO: Implement getScriptPath() method.
+        return '';
     }
 
     function setScriptPath($template_dir)
