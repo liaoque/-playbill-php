@@ -6,7 +6,7 @@ class UploadsController extends \Yaf_Controller_Abstract
     public function indexAction()
     {
         $appDirectory = Yaf_Dispatcher::getInstance()->getApplication()->getAppDirectory();
-        $storage = new \Upload\Storage\FileSystem($appDirectory . '../public/upload');
+        $storage = new \Upload\Storage\FileSystem($appDirectory . '/../public/upload');
         $file = new \Upload\File('file', $storage);
 
         // Optionally you can rename the file on upload

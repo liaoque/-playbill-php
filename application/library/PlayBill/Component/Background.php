@@ -18,7 +18,6 @@ class Background extends AbstractComponent implements ComponentInterface
      */
     public function run(Image $image)
     {
-
         $fill = $this->options->fill;
         $src = $this->options->src;
 //         TODO: Implement run() method.
@@ -29,7 +28,11 @@ class Background extends AbstractComponent implements ComponentInterface
         if ($src) {
             $file_get_contents = file_get_contents($src);
 
-            $im = Image::newFromBuffer($file_get_contents)->multiply([1, 1, 1, 0.3]);
+            $im = Image::newFromBuffer($file_get_contents);
+            if(!$im->hasAlpha()){
+
+            }
+
 
             $image = $image->composite($im, "over", [
                 'x' => 0, 'y' => 0
