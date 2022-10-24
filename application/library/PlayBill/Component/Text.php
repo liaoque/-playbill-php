@@ -1,22 +1,29 @@
 <?php
+
 namespace PlayBill\Component;
 
 
 use Jcupitt\Vips;
 use Jcupitt\Vips\Image;
+use PlayBill\Utils\Color;
 
-class Text implements ComponentInterface
+class Text extends AbstractComponent implements ComponentInterface
 {
     /**
-     * @return Vips\Image
+     * @return Image
      * @throws Vips\Exception
      */
-    public function run(Image $image){
-        $text = Vips\Image::text('Hello world!', [
-            'font' => 'sans 30',
-            'width' => $this->options->width
-        ]);
-        $red = $text->newFromImage([255, 0, 0])->copy(['interpretation' => 'srgb']);
+    public function run(Image $image)
+    {
+        $context = $this->options->text;
+        $fill = $this->options->fill;
+        $text2 = Image::text($context);
+        var_dump($text2);
+        exit();
+
+        $colors = Color::auto2rgba($fill);
+        $red = $text->newFromImage([$colors[0], $colors[1], $colors[2]])
+            ->copy(['interpretation' => 'srgb']);
         return $red->bandjoin($text);
     }
 }
