@@ -10,7 +10,10 @@ class Logger implements \Psr\Log\LoggerInterface
     {
         // Do logging logic here.
         $appDirectory = Yaf_Dispatcher::getInstance()->getApplication()->getAppDirectory();
-        file_put_contents($appDirectory . '/../storage/logs/error.log', "[$level]：$message---" . json_encode($context));
+        file_put_contents($appDirectory . '/../storage/logs/error'.date('Ymd').'.log',
+            "\r\n[$level]：$message---" . json_encode($context),
+            FILE_APPEND
+        );
 //                var_dump(json_encode([$level, $message, $context]) );
     }
 }
