@@ -149,3 +149,8 @@ $overlay = $overlay->embed(
 Image embed(integer $x, integer $y, integer $width, integer $height, array $options = [])
 ```
 
+
+```
+rotate
+
+```

@@ -38,28 +38,22 @@ class Factory
         foreach ($objects as $row) {
 
             $componentType = $row->component_type;
+            var_dump($componentType);
             if ($componentType == 'pic') {
                 continue;
             }
+
             // 创建组件
             $overlay = null;
             $componentType = ucfirst($componentType);
             $className = "\\PlayBill\\Component\\{$componentType}";
             if (class_exists($className)) {
                 $classNameObj = new $className($row);
-                $overlay = $classNameObj->run($image);
+                $image = $classNameObj->run($image);
             }
 
-            // 添加组件
-            if ($overlay) {
-                $image = $image->composite($overlay, "over", ['x' => 100, 'y' => 100]);
-            }
         }
 
-//        // 写入
-//        if (isset($out)) {
-//            $out->writeToFile('tiny.jpg');
-//        }
         return $image;
     }
 

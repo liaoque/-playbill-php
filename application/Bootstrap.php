@@ -26,7 +26,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     {
         $dispatcher->setErrorHandler(function () {
             var_dump("捕獲錯誤");
-            var_dump(func_get_args());
+            var_export(func_get_args());
             exit();
         }, YAF_ERR_STARTUP_FAILED | YAF_ERR_ROUTE_FAILED | YAF_ERR_DISPATCH_FAILED |
             YAF_ERR_AUTOLOAD_FAILED | YAF_ERR_NOTFOUND_MODULE | YAF_ERR_NOTFOUND_CONTROLLER | YAF_ERR_NOTFOUND_ACTION
