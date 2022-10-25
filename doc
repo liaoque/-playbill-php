@@ -2,8 +2,11 @@
 nodejs https://sharp.pixelplumbing.com/install
 
 python https://www.aiuai.cn/aifarm1738.html
+        https://libvips.github.io/pyvips/README.html#how-it-works
 
 php https://libvips.github.io/php-vips/classes/Jcupitt-Vips-Image.html
+
+
 
 ```
 创建lut

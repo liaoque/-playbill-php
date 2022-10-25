@@ -38,10 +38,6 @@ class Factory
         foreach ($objects as $row) {
 
             $componentType = $row->component_type;
-            var_dump($componentType);
-            if ($componentType == 'pic') {
-                continue;
-            }
 
             // 创建组件
             $overlay = null;
