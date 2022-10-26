@@ -4,7 +4,7 @@ namespace PlayBill\Component;
 
 use Jcupitt\Vips;
 
-class Image implements ComponentInterface
+class Pic implements ComponentInterface
 {
     /**
      * @return Vips\Image

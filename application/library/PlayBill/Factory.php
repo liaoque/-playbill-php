@@ -59,7 +59,7 @@ class Factory
      */
     public static function createArea($rows)
     {
-        return Image::black(375 * 2, 667 * 2);
+        return Image::black(375 , 667 );
     }
 
 

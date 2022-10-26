@@ -28,29 +28,20 @@ class Rect extends AbstractComponent implements ComponentInterface
     ></rect>
 </svg>
 EOF
-        );
+        )->affine([
+            $this->options->scaleX, 0, 0, $this->options->scaleY
+        ])->rotate($this->options->angle);
+
+        $width = $overlay->get('width') / 2;
+        $height = $overlay->get('height') / 2;
         $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])
             ->composite($overlay, "over", [
-            'x' => $this->options->left,
-            'y' => $this->options->top,
+                'x' => $this->options->left - ($width - ($width * cos($this->options->angle) +
+                            $height * sin($this->options->angle))),
+                'y' => $this->options->top + ($height - ($width * sin($this->options->angle) +
+                            $height * cos($this->options->angle))),
         ]);
         return $image;
-//
-//        $colors = Color::auto2rgba($fill);
-//        $overlay = Image::black(
-//            $this->options->width,
-//            $this->options->height
-//        )->newFromImage([
-//            $colors[0], $colors[1], $colors[2]
-//        ])->rotate($this->options->angle);
-//
-//        if ($overlay) {
-//            $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])
-//                ->composite($overlay, "over", [
-//                    'x' => $this->options->left,
-//                    'y' => $this->options->top,
-//                ]);
-//        }
-//        return $image;
+
     }
 }

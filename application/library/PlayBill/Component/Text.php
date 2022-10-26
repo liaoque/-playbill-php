@@ -18,7 +18,7 @@ class Text extends AbstractComponent implements ComponentInterface
     {
         $context = $this->options->text;
         $fill = $this->options->fill;
-
+        $this->options->angle = 47;
 
         $text = Image::text($context, [
             'width' => $this->options->width,
@@ -29,12 +29,16 @@ class Text extends AbstractComponent implements ComponentInterface
         $red = $text->newFromImage([$colors[0], $colors[1], $colors[2]])
             ->copy(['interpretation' => 'srgb']);
         $overlay = $red->bandjoin($text);
-//        var_dump($overlay->get('interpretation'), $image->get('interpretation'));exit();
+
         if ($overlay) {
-            $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])->composite($overlay, "over", [
-                'x' => $this->options->left,
-                'y' => $this->options->top,
-            ]);
+            $width = $overlay->get('width') / 2;
+            $height = $overlay->get('height') / 2;
+            var_dump($overlay->get('width'), $image->get('height'));
+            $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])
+                ->composite($overlay, "over", [
+                    'x' => 0,
+                    'y' => 0,
+                ]);
         }
         return $image;
     }

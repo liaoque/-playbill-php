@@ -25,39 +25,20 @@ class Circle extends AbstractComponent implements ComponentInterface
     ></circle>
 </svg>
 EOF
-        );
+        )->affine([
+            $this->options->scaleX, 0, 0, $this->options->scaleY
+        ])->rotate($this->options->angle);
+
+        $width = $overlay->get('width') / 2;
+        $height = $overlay->get('height') / 2;
         $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])
             ->composite($overlay, "over", [
-            'x' => $this->options->left,
-            'y' => $this->options->top,
-        ]);
+                'x' => $this->options->left - ($width - ($width * cos($this->options->angle) +
+                            $height * sin($this->options->angle))),
+                'y' => $this->options->top + ($height - ($width * sin($this->options->angle) +
+                            $height * cos($this->options->angle))),
+            ]);
         return $image;
-//
-//        $fill = $this->options->fill;
-//        $colors = Color::auto2rgba($fill);
-//        $overlay = Image::black(
-//            $this->options->width,
-//            $this->options->height
-//        )->multiply([1, 1, 1, 0])
-//            ->cast('uchar')
-//            ->draw_circle(255,
-//                $this->options->width / 2,
-//                $this->options->height / 2,
-//                $this->options->width / 2,
-//                ['fill' => true]
-//            );
-//
-//        $red = $image->newFromImage([$colors[0], $colors[1], $colors[2]])
-//            ->copy(['interpretation' => 'srgb']);
-//        $overlay = $red->bandjoin($overlay);
-//
-//        if ($overlay) {
-//            $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])
-//                ->composite($overlay, "over", [
-//                    'x' => $this->options->left,
-//                    'y' => $this->options->top,
-//                ]);
-//        }
-//        return $image;
+
     }
 }

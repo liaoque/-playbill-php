@@ -62,7 +62,7 @@ class PlaybillController extends Yaf_Controller_Abstract
         $out = \PlayBill\Factory::load($data);
 
         if ($out) {
-            $writeToBuffer = $out->writeToFile('tiny2.jpg');
+            $writeToBuffer = $out->writeToFile('tiny2.png');
         }
     }
 
