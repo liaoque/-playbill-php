@@ -18,11 +18,12 @@ class Text extends AbstractComponent implements ComponentInterface
     {
         $context = $this->options->text;
         $fill = $this->options->fill;
-        $this->options->angle = 47;
 
         $text = Image::text($context, [
             'width' => $this->options->width,
             'height' => $this->options->height,
+            'font' => 'observer-test3',
+            'fontfile' => \Yaf_Dispatcher::getInstance()->getApplication()->getAppDirectory() . '/../public/fonts/sourcesanspro-regular.woff',
         ])->rotate($this->options->angle);
 
         $colors = Color::auto2rgba($fill);
@@ -31,15 +32,19 @@ class Text extends AbstractComponent implements ComponentInterface
         $overlay = $red->bandjoin($text);
 
         if ($overlay) {
-            $width = $overlay->get('width') / 2;
-            $height = $overlay->get('height') / 2;
-            var_dump($overlay->get('width'), $image->get('height'));
+            $minXY = self::minXY($image);
             $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])
                 ->composite($overlay, "over", [
-                    'x' => 0,
-                    'y' => 0,
+                    'x' => $minXY['x'],
+                    'y' => $minXY['y'],
                 ]);
         }
         return $image;
+    }
+
+
+    public function degreesToRadians($degrees)
+    {
+        return $degrees * pi() / 180;
     }
 }
