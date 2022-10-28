@@ -4,6 +4,8 @@
 namespace PlayBill\Component;
 
 
+
+
 class AbstractComponent
 {
     protected \stdClass $options;
@@ -25,4 +27,31 @@ class AbstractComponent
         }
         return ['x' => $minx, 'y' => $miny];
     }
+
+    /**
+     * 設置透明度
+     * @param $overlay
+     * @return \Jcupitt\Vips\Image
+     * @throws \Jcupitt\Vips\Exception
+     */
+    public function opacity($overlay){
+        if ($overlay && $this->options->opacity != 1) {
+            $overlay = Alpha::addAlpha($overlay);
+            $overlay = $overlay->multiply([1, 1, 1, 0.5])->cast("uchar");
+        }
+        return $overlay;
+    }
+
+    public function merge($image, $overlay){
+        if ($overlay) {
+            $minXY = self::minXY($image);
+            $image = $image->copy(['interpretation' =>  \Jcupitt\Vips\Interpretation::SRGB])
+                ->composite($overlay, "over", [
+                    'x' => $minXY['x'],
+                    'y' => $minXY['y'],
+                ]);
+        }
+        return $image;
+    }
+
 }

@@ -5,6 +5,7 @@ namespace PlayBill\Component;
 
 use Jcupitt\Vips;
 use Jcupitt\Vips\Image;
+use PlayBill\Utils\Alpha;
 use PlayBill\Utils\Color;
 
 class Text extends AbstractComponent implements ComponentInterface
@@ -31,14 +32,9 @@ class Text extends AbstractComponent implements ComponentInterface
             ->copy(['interpretation' => 'srgb']);
         $overlay = $red->bandjoin($text);
 
-        if ($overlay) {
-            $minXY = self::minXY($image);
-            $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])
-                ->composite($overlay, "over", [
-                    'x' => $minXY['x'],
-                    'y' => $minXY['y'],
-                ]);
-        }
+
+        $overlay = $this->opacity($overlay);
+        $image =  $this->merge($image, $overlay);
         return $image;
     }
 

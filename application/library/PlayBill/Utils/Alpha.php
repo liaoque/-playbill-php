@@ -23,11 +23,7 @@ class Alpha
             if ($im->get('Type') == 26 || $im->get('Type') == 25) {
                 $maxAlpha = 65535;
             }
-
-            $im = $im->bandjoin_const($maxAlpha)
-                ->multiply([1, 1, 1, 0.5])
-                ->cast("uchar");
-
+            $im = $im->bandjoin_const($maxAlpha);
         }
         return $im;
     }

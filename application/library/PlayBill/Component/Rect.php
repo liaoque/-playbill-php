@@ -31,14 +31,8 @@ EOF
             $this->options->scaleX, 0, 0, $this->options->scaleY
         ])->rotate($this->options->angle);
 
-        if ($overlay) {
-            $minXY = self::minXY($image);
-            $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])
-                ->composite($overlay, "over", [
-                    'x' => $minXY['x'],
-                    'y' => $minXY['y'],
-                ]);
-        }
+        $overlay = $this->opacity($overlay);
+        $image =  $this->merge($image, $overlay);
         return $image;
 
     }

@@ -6,6 +6,7 @@ namespace PlayBill\Component;
 use Jcupitt\Vips;
 use Jcupitt\Vips\Image;
 use Jcupitt\Vips\Interpolate;
+use PlayBill\Utils\Alpha;
 
 class Triangle extends AbstractComponent implements ComponentInterface
 {
@@ -27,14 +28,9 @@ EOF
         ], ['premultiplied' => true])
             ->rotate($this->options->angle);
 
-        if ($overlay) {
-            $minXY = self::minXY($image);
-            $image = $image->copy(['interpretation' => Vips\Interpretation::SRGB])
-                ->composite($overlay, "over", [
-                    'x' => $minXY['x'],
-                    'y' => $minXY['y'],
-                ]);
-        }
+        $overlay = $this->opacity($overlay);
+        $image =  $this->merge($image, $overlay);
+
         return $image;
     }
 }

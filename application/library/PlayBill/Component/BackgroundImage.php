@@ -37,7 +37,7 @@ class BackgroundImage extends AbstractComponent implements ComponentInterface
 //            $im = Image::newFromBuffer($file_get_contents);
 //
 //            $im = Alpha::addAlpha($im);
-//
+//            $im = $im->multiply([1, 1, 1, 0.5])->cast("uchar");
 //            $image = $image->composite2($im, "over");
 //        }
 
