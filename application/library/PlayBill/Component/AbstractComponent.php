@@ -37,7 +37,7 @@ class AbstractComponent
     public function opacity($overlay){
         if ($overlay && $this->options->opacity != 1) {
             $overlay = Alpha::addAlpha($overlay);
-            $overlay = $overlay->multiply([1, 1, 1, 0.5])->cast("uchar");
+            $overlay = $overlay->multiply([1, 1, 1, $this->options->opacity])->cast("uchar");
         }
         return $overlay;
     }
