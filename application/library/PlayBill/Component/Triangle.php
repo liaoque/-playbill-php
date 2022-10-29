@@ -19,7 +19,7 @@ class Triangle extends AbstractComponent implements ComponentInterface
         parent::__construct($options);
         $this->setTemplate(<<<EOF
 <svg viewBox="0 0 {width} {height}">
-    <polygon  points="{width},0 0,{height} {width},{height}" stroke="{stroke}" fill="{fill}" stroke-width="{stroke_width}"></polygon>
+    <polygon  points="{w},0 0,{h} {w},{h}" stroke="{stroke}" fill="{fill}" stroke-width="{stroke_width}"></polygon>
 </svg>
 EOF
         );
@@ -34,8 +34,10 @@ EOF
     {
 
         $data = [
-            '{width}' => $this->options->width + $this->options->strokeWidth ,
-            '{height}' => $this->options->height + $this->options->strokeWidth ,
+            '{width}' => $this->options->width + $this->options->strokeWidth,
+            '{height}' => $this->options->height + $this->options->strokeWidth,
+            '{w}' => $this->options->width,
+            '{h}' => $this->options->height,
             '{fill}' => $this->options->fill,
             '{stroke}' => $this->options->stroke,
             '{stroke_width}' => $this->options->strokeWidth,
@@ -48,7 +50,7 @@ EOF
             ->rotate($this->options->angle);
 
         $overlay = $this->opacity($overlay);
-        $image =  $this->merge($image, $overlay);
+        $image = $this->merge($image, $overlay);
 
         return $image;
     }
