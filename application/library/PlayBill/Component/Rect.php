@@ -11,6 +11,26 @@ use PlayBill\Utils\Color;
 
 class Rect extends AbstractComponent implements ComponentInterface
 {
+    use Template;
+
+    public function __construct($options)
+    {
+        parent::__construct($options);
+        $this->setTemplate(<<<EOF
+<svg viewBox="0 0 {width} {height}">
+    <rect x="0" y="0" 
+    height="{height}" 
+    width="{width}" 
+    fill="{fill}"  
+    stroke="{stroke}" 
+    stroke-width="{stroke_width}"
+    ></rect>
+</svg>
+EOF
+        );
+    }
+
+
     /**
      * @param Pic $image
      * @return Vips\Image
@@ -18,21 +38,22 @@ class Rect extends AbstractComponent implements ComponentInterface
      */
     public function run(Image $image)
     {
-        $overlay = Image::svgload_buffer(<<<EOF
-<svg viewBox="0 0 {$this->options->width} {$this->options->height}">
-    <rect x="0" y="0" 
-    height="{$this->options->width}" 
-    width="{$this->options->width}" 
-    fill="{$this->options->fill}" 
-    ></rect>
-</svg>
-EOF
-        )->affine([
+
+        $data = [
+            '{width}' => $this->options->width + $this->options->strokeWidth ,
+            '{height}' => $this->options->height + $this->options->strokeWidth ,
+            '{fill}' => $this->options->fill,
+            '{stroke}' => $this->options->stroke,
+            '{stroke_width}' => $this->options->strokeWidth,
+        ];
+        $render = self::render($data);
+
+        $overlay = Image::svgload_buffer($render)->affine([
             $this->options->scaleX, 0, 0, $this->options->scaleY
         ])->rotate($this->options->angle);
 
         $overlay = $this->opacity($overlay);
-        $image =  $this->merge($image, $overlay);
+        $image = $this->merge($image, $overlay);
         return $image;
 
     }

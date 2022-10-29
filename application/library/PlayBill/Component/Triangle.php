@@ -10,20 +10,39 @@ use PlayBill\Utils\Alpha;
 
 class Triangle extends AbstractComponent implements ComponentInterface
 {
+
+
+    use Template;
+
+    public function __construct($options)
+    {
+        parent::__construct($options);
+        $this->setTemplate(<<<EOF
+<svg viewBox="0 0 {width} {height}">
+    <polygon  points="{width},0 0,{height} {width},{height}" stroke="{stroke}" fill="{fill}" stroke-width="{stroke_width}"></polygon>
+</svg>
+EOF
+        );
+    }
+
+
     /**
      * @return Vips\Image
      * @throws Vips\Exception
      */
     public function run(Image $image)
     {
-        $width = $this->options->width / 2;
 
-        $overlay = Image::svgload_buffer(<<<EOF
-<svg width="{$this->options->width}" height="{$this->options->height}">
-    <polygon  points="{$width},0 0,{$this->options->height} {$this->options->width},{$this->options->height}" fill="{$this->options->fill}"></polygon>
-</svg>
-EOF
-        )->affine([
+        $data = [
+            '{width}' => $this->options->width + $this->options->strokeWidth ,
+            '{height}' => $this->options->height + $this->options->strokeWidth ,
+            '{fill}' => $this->options->fill,
+            '{stroke}' => $this->options->stroke,
+            '{stroke_width}' => $this->options->strokeWidth,
+        ];
+        $render = self::render($data);
+
+        $overlay = Image::svgload_buffer($render)->affine([
             $this->options->scaleX, 0, 0, $this->options->scaleY
         ], ['premultiplied' => true])
             ->rotate($this->options->angle);
