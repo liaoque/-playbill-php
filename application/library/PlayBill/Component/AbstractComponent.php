@@ -6,6 +6,8 @@ namespace PlayBill\Component;
 
 
 
+use PlayBill\Utils\Alpha;
+
 class AbstractComponent
 {
     protected \stdClass $options;
@@ -47,8 +49,8 @@ class AbstractComponent
             $minXY = self::minXY($image);
             $image = $image->copy(['interpretation' =>  \Jcupitt\Vips\Interpretation::SRGB])
                 ->composite($overlay, "over", [
-                    'x' => $minXY['x'],
-                    'y' => $minXY['y'],
+                    'x' => $minXY['x'] ,
+                    'y' => $minXY['y'] ,
                 ]);
         }
         return $image;

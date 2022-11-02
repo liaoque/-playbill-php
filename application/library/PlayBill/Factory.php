@@ -6,6 +6,8 @@ namespace PlayBill;
 use Jcupitt\Vips;
 use Jcupitt\Vips\Image;
 use PlayBill\Component\Background;
+use PlayBill\Component\BackgroundImage;
+use PlayBill\Utils\Alpha;
 
 class Factory
 {
@@ -54,12 +56,32 @@ class Factory
     }
 
     /**
+     * @param $rows
      * @return Image
-     * @throws Vips\Exception
      */
     public static function createArea($rows)
     {
-        return Image::black(375 , 667 );
+
+        if (!$rows->data->opacity) {
+            return Image::black($rows->data->width / $rows->data->zoom, $rows->data->height / $rows->data->zoom);
+        }
+
+        $width = $rows->data->width / $rows->data->zoom;
+        $height = $rows->data->height / $rows->data->zoom;
+        $render = <<<EOF
+<svg viewBox="0 0 {width} {height}">
+    <rect x="0" y="0" 
+    height="{height}" 
+    width="{width}" 
+    fill-opacity="0"
+    ></rect>
+</svg>
+EOF;
+        $render = strtr($render, [
+            '{width}' => $width,
+            '{height}' => $height,
+        ]);
+        return Image::svgload_buffer($render);
     }
 
 

@@ -25,7 +25,7 @@ class Pic extends AbstractComponent implements ComponentInterface
         $im = Image::newFromBuffer($file_get_contents);
 
         $im = Alpha::addAlpha($im)->affine([
-            $this->options->scaleX, 0, 0, $this->options->scaleY
+            $this->options->scaleX , 0, 0, $this->options->scaleY
         ])->rotate($this->options->angle);
         $overlay = $this->opacity($im);
         $image = $this->merge($image, $overlay);

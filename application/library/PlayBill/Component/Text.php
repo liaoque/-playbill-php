@@ -25,7 +25,9 @@ class Text extends AbstractComponent implements ComponentInterface
             'height' => $this->options->height,
             'font' => 'observer-test3',
             'fontfile' => \Yaf_Dispatcher::getInstance()->getApplication()->getAppDirectory() . '/../public/fonts/sourcesanspro-regular.woff',
-        ])->rotate($this->options->angle);
+        ])->rotate($this->options->angle)->affine([
+            $this->options->scaleX, 0, 0, $this->options->scaleY
+        ]);
 
         $colors = Color::auto2rgba($fill);
         $red = $text->newFromImage([$colors[0], $colors[1], $colors[2]])

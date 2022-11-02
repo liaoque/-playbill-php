@@ -26,10 +26,12 @@ class BackgroundImage extends AbstractComponent implements ComponentInterface
     {
         $fill = $this->options->fill;
         $src = $this->options->src;
+        $opacity = true;
+
 //         TODO: Implement run() method.
-        if ($fill) {
+        if ($fill && $opacity === false) {
             $colors = Color::rgb2rgba($fill);
-            $image = $image->newFromImage([$colors[1], $colors[2], $colors[3]]);
+//            $image = $image->newFromImage([$colors[0], $colors[1], $colors[2]]);
         }
 
         if ($src) {
@@ -39,9 +41,13 @@ class BackgroundImage extends AbstractComponent implements ComponentInterface
             $im = Image::newFromBuffer($file_get_contents);
 
             $im = Alpha::addAlpha($im);
-            $im = $this->opacity($im);
+            $im = $this->opacity($im)->affine([
+                $this->options->scaleX, 0, 0, $this->options->scaleY
+            ]);
 //            $im = $im->multiply([1, 1, 1, 0.5])->cast("uchar");
-            $image = $image->composite2($im, "over");
+            $image = $image->composite2($im, "over", [
+
+            ]);
         }
 
         if (!$fill && !$src) {
