@@ -31,7 +31,7 @@ class BackgroundImage extends AbstractComponent implements ComponentInterface
 //         TODO: Implement run() method.
         if ($fill && $opacity === false) {
             $colors = Color::rgb2rgba($fill);
-//            $image = $image->newFromImage([$colors[0], $colors[1], $colors[2]]);
+            $image = $image->newFromImage([$colors[0], $colors[1], $colors[2]]);
         }
 
         if ($src) {
