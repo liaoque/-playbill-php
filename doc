@@ -63,7 +63,7 @@ $watermark = $watermark->multiply([1, 1, 1, 0.3])->cast("uchar");
 ```
 
 ```
-replicate 复制图片
+replicate 复制图片, 参考css的 replicate 属性
 $watermark = $watermark->replicate(
     1 + $image->width / $watermark->width,
     1 + $image->height / $watermark->height

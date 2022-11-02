@@ -4,6 +4,7 @@
 namespace PlayBill\Component;
 
 
+use HttpUtils\Client;
 use Jcupitt\Vips\Config;
 use Jcupitt\Vips\Exception;
 use Jcupitt\Vips\Image;
@@ -31,15 +32,17 @@ class BackgroundImage extends AbstractComponent implements ComponentInterface
             $image = $image->newFromImage([$colors[1], $colors[2], $colors[3]]);
         }
 
-//        if ($src) {
-//            $file_get_contents = file_get_contents($src);
-//
-//            $im = Image::newFromBuffer($file_get_contents);
-//
-//            $im = Alpha::addAlpha($im);
+        if ($src) {
+            $http = new Client();
+            $file_get_contents = $http->get($src);
+
+            $im = Image::newFromBuffer($file_get_contents);
+
+            $im = Alpha::addAlpha($im);
+            $im = $this->opacity($im);
 //            $im = $im->multiply([1, 1, 1, 0.5])->cast("uchar");
-//            $image = $image->composite2($im, "over");
-//        }
+            $image = $image->composite2($im, "over");
+        }
 
         if (!$fill && !$src) {
             $image = $image->newFromImage([255, 255, 255]);

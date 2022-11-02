@@ -2,15 +2,33 @@
 namespace PlayBill\Component;
 
 
+use HttpUtils\Client;
+use HttpUtils\Exception;
 use Jcupitt\Vips;
+use Jcupitt\Vips\Image;
+use PlayBill\Utils\Alpha;
 
-class Pic implements ComponentInterface
+class Pic extends AbstractComponent implements ComponentInterface
 {
+
     /**
-     * @return Vips\Image
+     * @param Image $image
+     * @return mixed
      * @throws Vips\Exception
+     * @throws Exception
      */
     public function run(Vips\Image $image){
+        $src = $this->options->src;
+        $http = new Client();
+        $file_get_contents = $http->get($src);
+
+        $im = Image::newFromBuffer($file_get_contents);
+
+        $im = Alpha::addAlpha($im)->affine([
+            $this->options->scaleX, 0, 0, $this->options->scaleY
+        ])->rotate($this->options->angle);
+        $overlay = $this->opacity($im);
+        $image = $this->merge($image, $overlay);
         return $image;
     }
 }
