@@ -33,11 +33,22 @@ class PlaybillController extends Yaf_Controller_Abstract
     {
         $params = $this->getRequest()->getParams();
         $oid = '';
+
         if ($params) {
+            $oid = $params['data']['oid'];
             $bulkWrite = new MongoDB\Driver\BulkWrite();
-            $insert = $bulkWrite->insert($params);
-            $this->manager->executeBulkWrite('playbill.poster', $bulkWrite);
-            $oid = $insert->__toString();
+            if ($oid) {
+                $bulkWrite->update([
+                    '_id' =>new \MongoDB\BSON\ObjectId($oid)
+                ], [
+                    '$set' => $params
+                ]);
+                $this->manager->executeBulkWrite('playbill.poster', $bulkWrite);
+            } else {
+                $insert = $bulkWrite->insert($params);
+                $this->manager->executeBulkWrite('playbill.poster', $bulkWrite);
+                $oid = $insert->__toString();
+            }
         }
         return \AppResponse\AppResponse::success(['oid' => $oid]);
     }
