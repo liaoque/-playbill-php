@@ -39,7 +39,7 @@ class PlaybillController extends Yaf_Controller_Abstract
             $bulkWrite = new MongoDB\Driver\BulkWrite();
             if ($oid) {
                 $bulkWrite->update([
-                    '_id' =>new \MongoDB\BSON\ObjectId($oid)
+                    '_id' => new \MongoDB\BSON\ObjectId($oid)
                 ], [
                     '$set' => $params
                 ]);
@@ -62,7 +62,15 @@ class PlaybillController extends Yaf_Controller_Abstract
     public function viewAction($id = 0)
     {
         if (empty($id)) {
-            throw new Yaf_Exception('11', \AppResponse\AppResponsePlayBill::CODE_VIEW);
+            $params = $this->getRequest()->getParams();
+            if (empty($params)) {
+                throw new Yaf_Exception('11', \AppResponse\AppResponsePlayBill::CODE_VIEW);
+            }
+//            var_dump($params);exit();
+            $params = json_decode(json_encode($params));
+            $out = \PlayBill\Factory::load($params);
+            $writeToBuffer1 = $out->writeToBuffer(".png");
+            return  \AppResponse\AppResponse::success(['src' => "data:image/png;base64".base64_encode($writeToBuffer1)]);
         }
         $query = new MongoDB\Driver\Query([
             '_id' => new \MongoDB\BSON\ObjectId($id)
