@@ -23,8 +23,8 @@ class Text extends AbstractComponent implements ComponentInterface
         $text = Image::text($context, [
             'width' => $this->options->width,
             'height' => $this->options->height,
-            'font' => 'observer-test3',
-            'fontfile' => \Yaf_Dispatcher::getInstance()->getApplication()->getAppDirectory() . '/../public/fonts/sourcesanspro-regular.woff',
+            'font' => 'QianTuBiFengShouXieTi',
+            'fontfile' => 'http://testwshop.wm18.com/pocket_admin/styles/QianTuBiFengShouXieTi-2.ttf',
         ])->rotate($this->options->angle)->affine([
             $this->options->scaleX, 0, 0, $this->options->scaleY
         ]);
