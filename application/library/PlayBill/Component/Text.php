@@ -27,10 +27,10 @@ class Text extends AbstractComponent implements ComponentInterface
         $yafConfigIni = Config::get('fonts');
         $fontFamilyFile = $yafConfigIni->get($fontFamily);
 
-        if ($fontFamilyFile->url) {
+        if ($fontFamilyFile->file) {
+            $fontFamilyFile = Config::rootPath($fontFamilyFile->file);
+        } elseif ($fontFamilyFile->url) {
             $fontFamilyFile = $fontFamilyFile->url;
-        } elseif ($fontFamilyFile->file) {
-            $fontFamilyFile = Config::rootPath($fontFamilyFile);
         } else {
             throw new  \Yaf_Exception('字体不存在', AppResponsePlayBill::FONT_NOT_FOUND);
         }
