@@ -1,5 +1,6 @@
 <?php
 
+use HttpUtils\Config;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
 
@@ -58,8 +59,9 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 
     public function _initRoute(Yaf_Dispatcher $dispatcher)
     {
+        $config = Config::get('routes');
         $router = $dispatcher->getRouter();
-        $router->addConfig(Yaf_Registry::get("config")->routes);
+        $router->addConfig($config->get('routes'));
     }
 
     public function _initPlugin(Yaf_Dispatcher $dispatcher)
@@ -82,7 +84,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     public function _initDatabase(Yaf_Dispatcher $dispatcher)
     {
         if (!Yaf_Registry::has('Manager')) {
-            $manager = new MongoDB\Driver\Manager(Yaf_Registry::get("config")->get('application.database'));
+            $manager = new MongoDB\Driver\Manager(Config::get('database'));
             Yaf_Registry::set(MongoDB\Driver\Manager::class, $manager);
         }
 //        $dispatcher->setView(Yaf_Registry::get(JsonView::class));
