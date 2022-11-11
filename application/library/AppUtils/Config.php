@@ -30,4 +30,8 @@ class Config
     public static function rootPath($file){
         return \Yaf_Application::app()->getAppDirectory() . '/../' . $file;
     }
+
+    public static function baseHost(){
+        $url = \Yaf_Dispatcher::getInstance()->getApplication()->getConfig()->get('application.base_host');
+    }
 }

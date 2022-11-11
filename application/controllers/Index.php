@@ -22,18 +22,12 @@ class IndexController extends \Yaf_Controller_Abstract
      */
     public function indexAction()
     {
-//        //1. fetch query
         $get = $this->getRequest()->getQuery("name", "default value");
-//        //2. fetch model
-//        $model = new SampleModel();
-//        //3. assign
-//        $this->getView()->assign("content", $model->selectSample());
         $this->getView()->assign("content", [
             'aa' => $get
         ]);
 
     }
-
 
 
 }
