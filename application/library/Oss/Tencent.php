@@ -13,13 +13,14 @@ class Tencent implements OssInterface
      * @var Client
      */
     private Client $client;
+    private $bucket;
 
     public function __construct($config)
     {
         $secretId = $config->get('secretId');
         $secretKey = $config->get('secretKey');
         $region = $config->get('region');
-        $bucket = $config->get('bucket');
+        $this->bucket = $config->get('bucket');
 
         $this->client = new Client([
             'region' => $region,
