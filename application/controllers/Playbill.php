@@ -31,12 +31,12 @@ class PlaybillController extends Yaf_Controller_Abstract
     {
         $params = $this->getRequest()->getParams();
         if (empty($params)) {
-            throw new Yaf_Exception('参数不能为空', \AppResponse\AppResponsePlayBill::CODE_SAVE);
+            throw new Yaf_Exception('参数不能为空', \AppResponse\AppResponsePlayBill::PARAMS_EMPTY);
         }
 
         $out = \PlayBill\Factory::load($params);
         if (empty($out)) {
-            throw new Yaf_Exception('参数不正确', \AppResponse\AppResponsePlayBill::CODE_SAVE);
+            throw new Yaf_Exception('参数不正确', \AppResponse\AppResponsePlayBill::PARAMS_VIPS);
         }
 
         $factory = new \Oss\Factory();
@@ -61,7 +61,7 @@ class PlaybillController extends Yaf_Controller_Abstract
         if (empty($id)) {
             $params = $this->getRequest()->getParams();
             if (empty($params)) {
-                throw new Yaf_Exception('参数不能为空', \AppResponse\AppResponsePlayBill::CODE_VIEW);
+                throw new Yaf_Exception('参数不能为空', \AppResponse\AppResponsePlayBill::PARAMS_EMPTY);
             }
 
             $params = json_decode(json_encode($params));

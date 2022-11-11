@@ -1,6 +1,6 @@
 <?php
 
-use HttpUtils\Config;
+use AppUtils\Config;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
 

@@ -2,7 +2,7 @@
 
 namespace Oss;
 
-use HttpUtils\Config;
+use AppUtils\Config;
 use Jcupitt\Vips\Image;
 
 class Factory
