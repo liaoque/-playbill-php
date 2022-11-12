@@ -33,20 +33,23 @@ class PlaybillController extends Yaf_Controller_Abstract
         if (empty($params)) {
             throw new Yaf_Exception('参数不能为空', \AppResponse\AppResponsePlayBill::PARAMS_EMPTY);
         }
-
-        $out = \PlayBill\Factory::load($params);
+        $params2 = json_decode(json_encode($params));
+        $out = \PlayBill\Factory::load($params2);
         if (empty($out)) {
             throw new Yaf_Exception('参数不正确', \AppResponse\AppResponsePlayBill::PARAMS_VIPS);
         }
 
         $factory = new \Oss\Factory();
-        $data = $factory->put($out);
+        $ossResult = $factory->put($out, $params2);
 
-        $poster = new Poster();
-        $params['url'] = $data['url'];
+        $poster = new PosterModel();
+        $params['src'] = $ossResult->getSrc();
         $oid = $poster->save($params);
 
-        return \AppResponse\AppResponse::success(['oid' => $oid]);
+        return \AppResponse\AppResponse::success([
+            'oid' => $oid,
+            'src' => $ossResult->getSrc()
+        ]);
     }
 
     /**
@@ -70,7 +73,7 @@ class PlaybillController extends Yaf_Controller_Abstract
             return \AppResponse\AppResponse::success(['src' => "data:image/png;base64," . base64_encode($writeToBuffer1)]);
         }
 
-        $poster = new Poster();
+        $poster = new PosterModel();
         $data = $poster->getRowById($id);
         $out = \PlayBill\Factory::load($data);
         $writeToBuffer1 = $out->writeToBuffer(".png");

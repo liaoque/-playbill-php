@@ -1,7 +1,7 @@
 <?php
 
 
-class Poster
+class PosterModel
 {
 
     /**

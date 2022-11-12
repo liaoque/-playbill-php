@@ -28,7 +28,7 @@ class Config
      * @return string
      */
     public static function rootPath($file){
-        return \Yaf_Application::app()->getAppDirectory() . '/../' . $file;
+        return \Yaf_Application::app()->getAppDirectory() . '..' . $file;
     }
 
     public static function baseHost(){

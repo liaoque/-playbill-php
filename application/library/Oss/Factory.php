@@ -7,29 +7,33 @@ use Jcupitt\Vips\Image;
 
 class Factory
 {
-    protected array $ossList = [];
+    protected OssInterface $oss;
 
     public function __construct(\Yaf_Config_Ini $config = null)
     {
         if (empty($config)) {
             $config = Config::get('oss');
         }
+
+        $local = $config->get('local');
+        if ($local->enabled) {
+            $this->oss = new Local($local);
+        }
+
         $aliyun = $config->get('aliyun');
         if ($aliyun->enabled) {
-            $this->ossList[] = new Aliyun($aliyun);
+            $this->oss = new Aliyun($aliyun);
         }
 
         $tencent = $config->get('tencent');
         if ($tencent->enabled) {
-            $this->ossList[] = new Tencent($tencent);
+            $this->oss = new Tencent($tencent);
         }
     }
 
-    public function put(Image $image)
+    public function put(Image $image, \stdClass $params):OssResult
     {
-        return array_map(function ($item) use ($image) {
-            return $item->put($image);
-        }, $this->ossList);
+        return $this->oss->put($image, $params);
     }
 
 

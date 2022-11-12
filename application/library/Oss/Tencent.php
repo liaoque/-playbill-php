@@ -27,17 +27,15 @@ class Tencent implements OssInterface
             'schema' => 'https',
             'credentials' => ['secretId' => $secretId, 'secretKey' => $secretKey]
         ]);
-
     }
 
-    public function put(Image $image)
+    public function put(Image $image, \stdClass $params):OssResult
     {
-        $this->client->putObject(array(
+        $this->client->putObject([
             'Bucket' => $this->bucket,
             'Key' => $image,
             'Body' => $image
-        ));
-
+        ]);
     }
 
 

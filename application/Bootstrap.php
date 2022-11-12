@@ -42,6 +42,14 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         });
     }
 
+    public function _initRoute(Yaf_Dispatcher $dispatcher)
+    {
+        $config = Config::get('routes');
+        $router = $dispatcher->getRouter();
+        $router->addConfig($config->get('routes'));
+    }
+
+
     public function _initRequest(Yaf_Dispatcher $dispatcher)
     {
         $explode = explode(',', Yaf_Registry::get("config")->get('upload.urls'));
@@ -57,12 +65,6 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         }
     }
 
-    public function _initRoute(Yaf_Dispatcher $dispatcher)
-    {
-        $config = Config::get('routes');
-        $router = $dispatcher->getRouter();
-        $router->addConfig($config->get('routes'));
-    }
 
     public function _initPlugin(Yaf_Dispatcher $dispatcher)
     {
