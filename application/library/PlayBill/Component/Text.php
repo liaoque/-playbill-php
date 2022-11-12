@@ -23,14 +23,12 @@ class Text extends AbstractComponent implements ComponentInterface
         $context = $this->options->text;
         $fill = $this->options->fill;
         $fontFamily = $this->options->fontFamily;
-
         $yafConfigIni = Config::get('fonts');
-        $fontFamilyFile = $yafConfigIni->get($fontFamily);
-
-        if ($fontFamilyFile->file) {
-            $fontFamilyFile = Config::rootPath($fontFamilyFile->file);
-        } elseif ($fontFamilyFile->url) {
-            $fontFamilyFile = $fontFamilyFile->url;
+        $fontFamilyFile = $yafConfigIni->get('fonts.'.$fontFamily);
+        if ($fontFamilyFile->get('file')) {
+            $fontFamilyFile = Config::rootPath($fontFamilyFile->get('file'));
+        } elseif ($fontFamilyFile->get('url')) {
+            $fontFamilyFile = $fontFamilyFile->get('url');
         } else {
             throw new  \Yaf_Exception('字体不存在', AppResponsePlayBill::FONT_NOT_FOUND);
         }
