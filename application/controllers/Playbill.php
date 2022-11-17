@@ -81,4 +81,23 @@ class PlaybillController extends Yaf_Controller_Abstract
     }
 
 
+
+    public function templatesAction($page = 1, $limit = 10)
+    {
+        $poster = new PosterModel();
+        $result = $poster->getAll($page, $limit);
+
+        $result = array_map(function ($item) {
+            if (empty($item->src)) {
+                return [];
+            }
+            return [
+                'id' => $item->_id->__toString(),
+                'src' => 'http://yaf.mzq/'.$item->src,
+            ];
+        }, $result->toArray());
+
+        return \AppResponse\AppResponse::success(array_values(array_filter($result)));
+    }
+
 }

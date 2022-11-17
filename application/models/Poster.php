@@ -49,4 +49,16 @@ class PosterModel
         $rows = $this->manager->executeQuery('playbill.poster', $query);
         return $rows[0];
     }
+
+
+    public function getAll($page, $limit)
+    {
+        $query = new MongoDB\Driver\Query([], [
+            'skip' => ($page - 1) * $limit,
+            'limit' => $limit,
+            'projection' => ['data' => 0]
+        ]);
+        $rows = $this->manager->executeQuery('playbill.poster', $query);
+        return $rows;
+    }
 }

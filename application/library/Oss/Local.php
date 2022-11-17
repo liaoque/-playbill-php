@@ -22,7 +22,7 @@ class Local implements OssInterface
      */
     public function put(Image $image, \stdClass $params):OssResult
     {
-        $srcRoot = $this->config->get('path') . '/' . date('Ymd');
+        $srcRoot = $this->config->get('path') . '/img/' . date('Ymd');
         $rootPath = Config::rootPath($srcRoot);
         if (!file_exists($rootPath)) {
             mkdir($rootPath);
