@@ -46,8 +46,9 @@ class PosterModel
         $query = new MongoDB\Driver\Query([
             '_id' => new \MongoDB\BSON\ObjectId($id)
         ]);
+
         $rows = $this->manager->executeQuery('playbill.poster', $query);
-        return $rows[0];
+        return $rows->toArray()[0];
     }
 
 

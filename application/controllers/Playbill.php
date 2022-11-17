@@ -7,19 +7,22 @@ class PlaybillController extends Yaf_Controller_Abstract
 {
 
     /**
-     * @param int $id
+     * @param string $id
      * @return mixed
      * @throws \MongoDB\Driver\Exception\Exception
      */
-    public function queryAction($id = 0)
+    public function queryAction($id = '')
     {
         if (empty($id)) {
             return \AppResponse\AppResponse::success([]);
         }
 
-        $poster = new Poster();
+        $poster = new PosterModel();
         $row = $poster->getRowById($id);
-        return \AppResponse\AppResponse::success($row);
+        return \AppResponse\AppResponse::success([
+            'id' => $row->_id->__toString(),
+            'data' => $row->data,
+        ]);
     }
 
     /**
@@ -81,7 +84,6 @@ class PlaybillController extends Yaf_Controller_Abstract
     }
 
 
-
     public function templatesAction($page = 1, $limit = 10)
     {
         $poster = new PosterModel();
@@ -93,7 +95,7 @@ class PlaybillController extends Yaf_Controller_Abstract
             }
             return [
                 'id' => $item->_id->__toString(),
-                'src' => 'http://yaf.mzq/'.$item->src,
+                'src' => 'http://yaf.mzq/' . $item->src,
             ];
         }, $result->toArray());
 
