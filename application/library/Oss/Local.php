@@ -22,8 +22,8 @@ class Local extends \Upload\Storage\Base implements OssInterface
      */
     public function put(Image $image, \stdClass $params): OssResult
     {
-        $srcRoot = $this->config->get('path') . '/img/' . date('Ymd');
-        $rootPath = Config::rootPath($srcRoot);
+        $srcRoot = '/img/' . date('Ymd');
+        $rootPath = Config::rootPath($this->config->get('path') . $srcRoot);
         if (!file_exists($rootPath)) {
             mkdir($rootPath);
             chmod($rootPath, 644);

@@ -41,6 +41,6 @@ class Config
     public static function baseUrl($url = '')
     {
         $var = \Yaf_Dispatcher::getInstance()->getApplication()->getConfig()->get('application.base_url');
-        return rtrim($var, '/') . DIRECTORY_SEPARATOR . ltrim($url, '/');
+        return rtrim($var, '/') . '/' . ltrim($url, '/');
     }
 }

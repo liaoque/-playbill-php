@@ -18,10 +18,7 @@ class OssResult
 
     public function getSrc()
     {
-//        return $this->result['src'];
-        $config = Config::get('oss');
-        $var = $config->get('oss.base_url');
-        return rtrim($var, '/') . '/' . ltrim($this->result['src'], '/');
+        return $this->result['src'];
     }
 
 }

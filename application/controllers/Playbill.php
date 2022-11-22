@@ -51,7 +51,7 @@ class PlaybillController extends Yaf_Controller_Abstract
 
         return \AppResponse\AppResponse::success([
             'oid' => $oid,
-            'src' => $ossResult->getSrc()
+            'src' => \AppUtils\Config::baseUrl($ossResult->getSrc())
         ]);
     }
 
@@ -95,7 +95,7 @@ class PlaybillController extends Yaf_Controller_Abstract
             }
             return [
                 'id' => $item->_id->__toString(),
-                'src' => \AppUtils\Config::baseUrl() . $item->src,
+                'src' => \AppUtils\Config::baseUrl($item->src) ,
             ];
         }, $result->toArray());
 
