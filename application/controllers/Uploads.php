@@ -5,9 +5,9 @@ class UploadsController extends \Yaf_Controller_Abstract
 {
     public function indexAction()
     {
-        $appDirectory = Yaf_Dispatcher::getInstance()->getApplication()->getAppDirectory();
-        $storage = new \Upload\Storage\FileSystem($appDirectory . '/../public/upload');
-        $file = new \Upload\File('file', $storage);
+
+        $factory = new \Oss\Factory();
+        $file = new \Upload\File('file', $factory->getStorage());
 
         // Optionally you can rename the file on upload
         $new_filename = uniqid();
@@ -21,7 +21,7 @@ class UploadsController extends \Yaf_Controller_Abstract
         ));
 
         $nameWithExtension = $file->getNameWithExtension();
-        $url = Yaf_Dispatcher::getInstance()->getApplication()->getConfig()->get('application.base_host');
+        $url = \AppUtils\Config::baseUrl();
         $data = array(
             'name' => $file->getNameWithExtension(),
             'extension' => $file->getExtension(),

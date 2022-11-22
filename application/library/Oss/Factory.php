@@ -31,10 +31,17 @@ class Factory
         }
     }
 
-    public function put(Image $image, \stdClass $params):OssResult
+    public function put(Image $image, \stdClass $params): OssResult
     {
         return $this->oss->put($image, $params);
     }
 
+    /**
+     * @return OssInterface|Tencent
+     */
+    public function getStorage()
+    {
+        return $this->oss;
+    }
 
 }

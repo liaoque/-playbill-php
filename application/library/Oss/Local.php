@@ -5,7 +5,7 @@ namespace Oss;
 use AppUtils\Config;
 use Jcupitt\Vips\Image;
 
-class Local implements OssInterface
+class Local extends \Upload\Storage\Base implements OssInterface
 {
     private $config;
 
@@ -20,7 +20,7 @@ class Local implements OssInterface
      * @return array
      * @throws \Jcupitt\Vips\Exception
      */
-    public function put(Image $image, \stdClass $params):OssResult
+    public function put(Image $image, \stdClass $params): OssResult
     {
         $srcRoot = $this->config->get('path') . '/img/' . date('Ymd');
         $rootPath = Config::rootPath($srcRoot);
@@ -29,13 +29,21 @@ class Local implements OssInterface
             chmod($rootPath, 644);
         }
 
-        $file = $rootPath . '/'.$params->data->filename . '.png';
+        $file = $rootPath . '/' . $params->data->filename . '.png';
         $image->writeToFile($file);
 
         return new OssResult([
             'file' => $file,
-            'src' => $srcRoot . '/'.$params->data->filename . '.png'
+            'src' => $srcRoot . '/' . $params->data->filename . '.png'
         ]);
     }
 
+    public function upload(\Upload\File $file, $newName = null)
+    {
+        // TODO: Implement upload() method.
+        $srcRoot = $this->config->get('path') . '/img/' . date('Ymd');
+        $rootPath = Config::rootPath($srcRoot);
+        $storage = new \Upload\Storage\FileSystem($rootPath);
+        return $storage->upload($file, $newName);
+    }
 }

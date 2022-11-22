@@ -95,7 +95,7 @@ class PlaybillController extends Yaf_Controller_Abstract
             }
             return [
                 'id' => $item->_id->__toString(),
-                'src' => 'http://yaf.mzq/' . $item->src,
+                'src' => \AppUtils\Config::baseUrl() . $item->src,
             ];
         }, $result->toArray());
 
