@@ -19,13 +19,15 @@ class BackgroundImage extends AbstractComponent implements ComponentInterface
 
     /**
      * @param Image $image
+     * @param array $changeData
      * @return Image
      * @throws Exception
+     * @throws \HttpUtils\Exception
      */
-    public function run(Image $image)
+    public function run(Image $image, array $changeData = [])
     {
         $fill = $this->options->fill;
-        $src = $this->options->src;
+        $src = empty($changeData[$this->options->uuid]) ? $this->options->src : $changeData[$this->options->uuid];
         $opacity = true;
 
 //         TODO: Implement run() method.

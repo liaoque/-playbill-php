@@ -14,10 +14,11 @@ class Factory
 
     /**
      * @param $data
+     * @param $changeData
      * @return null|Image
      * @throws Vips\Exception
      */
-    public static function load($data)
+    public static function load($data, $changeData = [])
     {
         // 创建会话区域
         $out = null;
@@ -26,12 +27,12 @@ class Factory
 
         if (isset($data->data->backgroundImage)) {
             $background = new BackgroundImage($data->data->backgroundImage);
-            $image = $background->run($image);
+            $image = $background->run($image, $changeData);
         } else if (isset($data->data->background)) {
             $stdClass = new \stdClass();
             $stdClass->background = $data->data->background;
             $background = new Background($stdClass);
-            $image = $background->run($image);
+            $image = $background->run($image, $changeData);
         } else {
             $image = $image->newFromImage([255, 255, 255]);
         }
@@ -47,7 +48,7 @@ class Factory
             $className = "\\PlayBill\\Component\\{$componentType}";
             if (class_exists($className)) {
                 $classNameObj = new $className($row);
-                $image = $classNameObj->run($image);
+                $image = $classNameObj->run($image, $changeData);
             }
 
         }

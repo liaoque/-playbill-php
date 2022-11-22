@@ -60,7 +60,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         if ($data) {
             $jsonDecode = json_decode($data, true);
             foreach ($jsonDecode as $key => $value) {
-                $dispatcher->getRequest()->setParam($key, $value);
+                $dispatcher->getRequest()->setParam($key, urldecode($value));
             }
         }
     }

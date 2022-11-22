@@ -13,12 +13,13 @@ class Pic extends AbstractComponent implements ComponentInterface
 
     /**
      * @param Image $image
+     * @param array $changeData
      * @return mixed
-     * @throws Vips\Exception
      * @throws Exception
+     * @throws Vips\Exception
      */
-    public function run(Vips\Image $image){
-        $src = $this->options->src;
+    public function run(Vips\Image $image, array $changeData = []){
+        $src = empty($changeData[$this->options->uuid]) ? $this->options->src : $changeData[$this->options->uuid];
         $http = new Client();
         $file_get_contents = $http->get($src);
 

@@ -14,17 +14,19 @@ class Text extends AbstractComponent implements ComponentInterface
 {
     /**
      * @param Image $image
+     * @param array $changeData
      * @return Image
      * @throws Vips\Exception
-     * @throws \Yaf_Exception_TypeError|\Yaf_Exception
+     * @throws \Yaf_Exception
+     * @throws \Yaf_Exception_TypeError
      */
-    public function run(Image $image)
+    public function run(Image $image, array $changeData = [])
     {
-        $context = $this->options->text;
+        $context = empty($changeData[$this->options->uuid]) ? $this->options->text : $changeData[$this->options->uuid];
         $fill = $this->options->fill;
         $fontFamily = $this->options->fontFamily;
         $yafConfigIni = Config::get('fonts');
-        $fontFamilyFile = $yafConfigIni->get('fonts.'.$fontFamily);
+        $fontFamilyFile = $yafConfigIni->get('fonts.' . $fontFamily);
         if ($fontFamilyFile->get('file')) {
             $fontFamilyFile = Config::rootPath($fontFamilyFile->get('file'));
         } elseif ($fontFamilyFile->get('url')) {

@@ -56,13 +56,13 @@ class PlaybillController extends Yaf_Controller_Abstract
     }
 
     /**
-     * @param int $id
+     * @param string $id
      * @return mixed
      * @throws Vips\Exception
      * @throws Yaf_Exception
      * @throws \MongoDB\Driver\Exception\Exception
      */
-    public function viewAction($id = 0)
+    public function viewAction($id = '')
     {
         if (empty($id)) {
             $params = $this->getRequest()->getParams();
@@ -75,10 +75,10 @@ class PlaybillController extends Yaf_Controller_Abstract
             $writeToBuffer1 = $out->writeToBuffer(".png");
             return \AppResponse\AppResponse::success(['src' => "data:image/png;base64," . base64_encode($writeToBuffer1)]);
         }
-
+        $params = $this->getRequest()->getParams();
         $poster = new PosterModel();
         $data = $poster->getRowById($id);
-        $out = \PlayBill\Factory::load($data);
+        $out = \PlayBill\Factory::load($data, $params);
         $writeToBuffer1 = $out->writeToBuffer(".png");
         return \AppResponse\AppResponse::success(['src' => "data:image/png;base64," . base64_encode($writeToBuffer1)]);
     }

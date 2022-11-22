@@ -7,5 +7,5 @@ use Jcupitt\Vips\Image;
 
 interface ComponentInterface
 {
-    public function run(Image $image);
+    public function run(Image $image, array $changeData = []);
 }
