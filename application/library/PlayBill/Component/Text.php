@@ -22,7 +22,7 @@ class Text extends AbstractComponent implements ComponentInterface
      */
     public function run(Image $image, array $changeData = [])
     {
-        $context = empty($changeData[$this->options->uuid]) ? $this->options->text : $changeData[$this->options->uuid];
+        $context = empty($changeData[$this->options->uuid]) ? $this->options->text : urldecode($changeData[$this->options->uuid]);
         $fill = $this->options->fill;
         $fontFamily = $this->options->fontFamily;
         $yafConfigIni = Config::get('fonts');
