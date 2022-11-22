@@ -16,18 +16,9 @@ class UploadsController extends \Yaf_Controller_Abstract
         // Validate file upload
         // MimeType List => http://www.iana.org/assignments/media-types/media-types.xhtml
         $file->addValidations(array(
-            // Ensure file is of type "image/png"
             new \Upload\Validation\Mimetype(array('image/png', 'image/gif', 'image/jpeg', 'image/jpg')),
-
-            //You can also add multi mimetype validation
-            //new \Upload\Validation\Mimetype(array('image/png', 'image/gif'))
-
-            // Ensure file is no larger than 5M (use "B", "K", M", or "G")
             new \Upload\Validation\Size('5M')
         ));
-
-//        // Access data about the file that has been uploaded
-
 
         $nameWithExtension = $file->getNameWithExtension();
         $url = Yaf_Dispatcher::getInstance()->getApplication()->getConfig()->get('application.base_host');
