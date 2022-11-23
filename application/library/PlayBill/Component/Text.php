@@ -35,19 +35,30 @@ class Text extends AbstractComponent implements ComponentInterface
             throw new  \Yaf_Exception('字体不存在', AppResponsePlayBill::FONT_NOT_FOUND);
         }
 
+        $radius = intval($this->options->strokeWidth * $this->options->scaleX);
         $text = Image::text($context, [
-            'width' => $this->options->width,
-            'height' => $this->options->height,
+            'width' => $this->options->width * $this->options->scaleX,
+            'height' => $this->options->height * $this->options->scaleY,
             'font' => $fontFamily,
             'fontfile' => $fontFamilyFile,
-        ])->rotate($this->options->angle)->affine([
-            $this->options->scaleX, 0, 0, $this->options->scaleY
         ]);
 
         $colors = Color::auto2rgba($fill);
-        $red = $text->newFromImage([$colors[0], $colors[1], $colors[2]])
-            ->copy(['interpretation' => 'srgb']);
-        $overlay = $red->bandjoin($text);
+        $overlay = $text->newFromImage([$colors[0], $colors[1], $colors[2]])->bandjoin($text)->copy([
+            'interpretation' => 'srgb',
+        ]);
+
+//        circle_mask = pyvips.Image.black(radius * 2 + 1, radius * 2 + 1) \
+//    .add(128) \
+//    .draw_circle(255, radius, radius, radius, fill=True)
+
+//        https://github.com/libvips/libvips/discussions/2123
+        $bgTextMask = $text->embed($radius, $radius, $this->options->width + 2 * $radius, $this->options->height + 2 * $radius);
+        $bgTextMask = $bgTextMask->gaussmat($radius / 2, 0.1, ['separable' => true])->multiply(3*$radius);
+        $bgText = $text->convsep($bgTextMask)->cast("uchar");
+        $colors = Color::auto2rgba($this->options->stroke);
+        $overlayBg = $bgText->newFromImage([$colors[0], $colors[1], $colors[2]])->bandjoin($bgText)->copy(['interpretation' => 'srgb']);
+        $overlay = $overlayBg->composite($overlay, 'over')->rotate($this->options->angle);
 
 
         $overlay = $this->opacity($overlay);
