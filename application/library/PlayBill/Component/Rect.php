@@ -32,11 +32,12 @@ EOF
 
 
     /**
-     * @param Pic $image
+     * @param Image $image
+     * @param array $changeData
      * @return Vips\Image
      * @throws Vips\Exception
      */
-    public function run(Image $image)
+    public function run(Image $image, array $changeData = [])
     {
 
         $data = [
