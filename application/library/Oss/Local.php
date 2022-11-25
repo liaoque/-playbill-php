@@ -25,8 +25,9 @@ class Local extends \Upload\Storage\Base implements OssInterface
         $srcRoot = '/img/' . date('Ymd');
         $rootPath = Config::rootPath($this->config->get('path') . $srcRoot);
         if (!file_exists($rootPath)) {
+            @mkdir(Config::rootPath($this->config->get('path') . '/img/'));
             mkdir($rootPath);
-            chmod($rootPath, 644);
+            chmod($rootPath, 666);
         }
 
         $file = $rootPath . '/' . $params->data->filename . '.png';
