@@ -35,7 +35,7 @@ class Config
      */
     public static function rootPath($file)
     {
-        return \Yaf_Application::app()->getAppDirectory() . '..' . $file;
+        return rtrim(\Yaf_Application::app()->getAppDirectory() , '/'). '/..' . $file;
     }
 
     public static function baseUrl($url = '')

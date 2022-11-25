@@ -19,7 +19,7 @@ class Triangle extends AbstractComponent implements ComponentInterface
         parent::__construct($options);
         $this->setTemplate(<<<EOF
 <svg viewBox="0 0 {width} {height}">
-    <polygon  points="{w},0 0,{h} {w},{h}" stroke="{stroke}" fill="{fill}" stroke-width="{stroke_width}"></polygon>
+    <polygon  points="{w2},0 0,{h} {w},{h}" stroke="{stroke}" fill="{fill}" stroke-width="{stroke_width}"></polygon>
 </svg>
 EOF
         );
@@ -27,8 +27,6 @@ EOF
 
 
     /**
-     * @param Image $image
-     * @param array $changeData
      * @return Vips\Image
      * @throws Vips\Exception
      */
@@ -39,6 +37,7 @@ EOF
             '{width}' => $this->options->width + $this->options->strokeWidth,
             '{height}' => $this->options->height + $this->options->strokeWidth,
             '{w}' => $this->options->width,
+            '{w2}' => $this->options->width / 2,
             '{h}' => $this->options->height,
             '{fill}' => $this->options->fill,
             '{stroke}' => $this->options->stroke,

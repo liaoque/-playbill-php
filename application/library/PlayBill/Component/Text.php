@@ -53,13 +53,14 @@ class Text extends AbstractComponent implements ComponentInterface
 //    .draw_circle(255, radius, radius, radius, fill=True)
 
 //        https://github.com/libvips/libvips/discussions/2123
-        $bgTextMask = $text->embed($radius, $radius, $this->options->width + 2 * $radius, $this->options->height + 2 * $radius);
-        $bgTextMask = $bgTextMask->gaussmat($radius / 2, 0.1, ['separable' => true])->multiply(3*$radius);
-        $bgText = $text->convsep($bgTextMask)->cast("uchar");
-        $colors = Color::auto2rgba($this->options->stroke);
-        $overlayBg = $bgText->newFromImage([$colors[0], $colors[1], $colors[2]])->bandjoin($bgText)->copy(['interpretation' => 'srgb']);
-        $overlay = $overlayBg->composite($overlay, 'over')->rotate($this->options->angle);
-
+        if ($this->options->stroke) {
+            $bgTextMask = $text->embed($radius, $radius, $this->options->width + 2 * $radius, $this->options->height + 2 * $radius);
+            $bgTextMask = $bgTextMask->gaussmat($radius / 2, 0.1, ['separable' => true])->multiply(3 * $radius);
+            $bgText = $text->convsep($bgTextMask)->cast("uchar");
+            $colors = Color::auto2rgba($this->options->stroke);
+            $overlayBg = $bgText->newFromImage([$colors[0], $colors[1], $colors[2]])->bandjoin($bgText)->copy(['interpretation' => 'srgb']);
+            $overlay = $overlayBg->composite($overlay, 'over')->rotate($this->options->angle);
+        }
 
         $overlay = $this->opacity($overlay);
         $image = $this->merge($image, $overlay);
