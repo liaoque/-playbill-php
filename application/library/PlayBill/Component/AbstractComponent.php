@@ -4,8 +4,6 @@
 namespace PlayBill\Component;
 
 
-
-
 use PlayBill\Utils\Alpha;
 
 class AbstractComponent
@@ -36,7 +34,8 @@ class AbstractComponent
      * @return \Jcupitt\Vips\Image
      * @throws \Jcupitt\Vips\Exception
      */
-    public function opacity($overlay){
+    public function opacity($overlay)
+    {
         if ($overlay && $this->options->opacity != 1) {
             $overlay = Alpha::addAlpha($overlay);
             $overlay = $overlay->multiply([1, 1, 1, $this->options->opacity])->cast("uchar");
@@ -44,13 +43,14 @@ class AbstractComponent
         return $overlay;
     }
 
-    public function merge($image, $overlay){
+    public function merge($image, $overlay, $adjustment = [])
+    {
         if ($overlay) {
             $minXY = self::minXY($image);
-            $image = $image->copy(['interpretation' =>  \Jcupitt\Vips\Interpretation::SRGB])
+            $image = $image->copy(['interpretation' => \Jcupitt\Vips\Interpretation::SRGB])
                 ->composite($overlay, "over", [
-                    'x' => $minXY['x'] ,
-                    'y' => $minXY['y'] ,
+                    'x' => $minXY['x'] - (isset($adjustment['left']) ? $adjustment['left'] : 0),
+                    'y' => $minXY['y'] - (isset($adjustment['top']) ? $adjustment['top']: 0),
                 ]);
         }
         return $image;
