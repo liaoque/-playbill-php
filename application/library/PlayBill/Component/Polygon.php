@@ -33,18 +33,17 @@ EOF
      */
     public function run(Image $image, array $changeData = [])
     {
-        // 坐标会有负数的情况， 所以要对宽高进行处理
         $xArray = array_map(function ($item) {
             return $item->x;
         }, $this->options->points);
-        $leftX = abs(min(min(...$xArray), 0));
-        $rightX = max(max(...$xArray), $this->options->width);
+        $minx = min(...$xArray);
+        $leftX = abs(min($minx, 0));
 
         $yArray = array_map(function ($item) {
             return $item->y;
         }, $this->options->points);
-        $topY = abs(min(min(...$yArray), 0));
-        $downY = max(max(...$yArray), $this->options->height);
+        $miny = min(...$yArray);
+        $topY = abs(min($miny, 0));
 
         $options = implode(" ", array_map(function ($item) use ($leftX, $topY) {
             $x = $item->x + $leftX;
@@ -52,28 +51,25 @@ EOF
             return "{$x},{$y}";
         }, $this->options->points));
 
-//        var_dump([
-//            $leftX, $rightX,
-//            $topY, $downY
-//        ], $options);
+        $width = $this->options->width + max($minx, 0);
+        $height = $this->options->height + max($miny, 0);
+
         $data = [
-            '{width}' => $leftX + $rightX,
-            '{height}' => $topY + $downY,
+            '{width}' => $width + $this->options->strokeWidth,
+            '{height}' => $height + $this->options->strokeWidth,
             '{fill}' => $this->options->fill,
             '{stroke}' => $this->options->stroke,
             '{stroke_width}' => $this->options->strokeWidth,
             '{points}' => $options,
         ];
+//        var_dump($data);
         $render = self::render($data);
         $overlay = Image::svgload_buffer($render)->affine([
             $this->options->scaleX, 0, 0, $this->options->scaleY
         ])->rotate($this->options->angle);
 
         $overlay = $this->opacity($overlay);
-        $image = $this->merge($image, $overlay, [
-            'left' => $leftX,
-            'top' => $topY
-        ]);
+        $image = $this->merge($image, $overlay);
         return $image;
 
     }

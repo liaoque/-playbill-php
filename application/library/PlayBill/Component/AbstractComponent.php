@@ -43,14 +43,14 @@ class AbstractComponent
         return $overlay;
     }
 
-    public function merge($image, $overlay, $adjustment = [])
+    public function merge($image, $overlay)
     {
         if ($overlay) {
             $minXY = self::minXY($image);
             $image = $image->copy(['interpretation' => \Jcupitt\Vips\Interpretation::SRGB])
                 ->composite($overlay, "over", [
-                    'x' => $minXY['x'] - (isset($adjustment['left']) ? $adjustment['left'] : 0),
-                    'y' => $minXY['y'] - (isset($adjustment['top']) ? $adjustment['top']: 0),
+                    'x' => $minXY['x'],
+                    'y' => $minXY['y'],
                 ]);
         }
         return $image;
