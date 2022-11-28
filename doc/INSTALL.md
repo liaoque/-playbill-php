@@ -116,3 +116,6 @@ phpize
 ./configure 
 make && make install
 ```
+
+#### 开启[FFI](https://www.php.net/manual/zh/book.ffi.php)
+
