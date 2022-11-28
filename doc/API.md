@@ -10,23 +10,7 @@ php https://libvips.github.io/php-vips/classes/Jcupitt-Vips-Image.html
 
 ```
 创建lut
-/**
- * Make a identity LUT, that is, a lut where each pixel has the value of
- * its index ... if you map an image through the identity, you get the
- * same image back again.
- *
- * LUTs in libvips are just images with either the width or height set
- * to 1, and the 'interpretation' tag set to HISTOGRAM.
- *
- * If 'ushort' is TRUE, we make a 16-bit LUT, ie. 0 - 65535 values;
- * otherwise it's 8-bit (0 - 255)
- */
 $lut = Vips\Image::identity(['ushort' => $ushort]);
-```
-
-
-```
-    $lut = Vips\Image::identity(['ushort' => $ushort]);
 ```
 
 ```
@@ -34,12 +18,10 @@ $lut = Vips\Image::identity(['ushort' => $ushort]);
   $lut = $lut->divide($range);
 ```
 
-
 ```
 翻转
 $image = $image->invert();
 ```
-
 
 ```
 卷积运算
@@ -75,24 +57,20 @@ Copy an image.
 $overlay = $overlay->copy(['interpretation' => 'srgb']);
 ```
 
-
 ```
 裁切
 $watermark = $watermark->crop(0, 0, $image->width, $image->height);
 ```
 
-
 ```
 不知道啥意思
  $result = $result->cast($ushort ? Vips\BandFormat::USHORT : Vips\BandFormat::UCHAR);
-
 ```
 
 ```
 水平缩小图像。
     $lut = $lut->shrinkh(2);
 ```
-
 
 ```
 转换颜色空间
@@ -102,7 +80,6 @@ $watermark = $watermark->crop(0, 0, $image->width, $image->height);
     ]);
 ```
 
-
 ```
 文字
 $text_mask = Vips\Image::text($text, [
@@ -111,7 +88,6 @@ $text_mask = Vips\Image::text($text, [
 ]);
 ```
 
-
 ```
 如果 $then, 否则 $else
 $overlay = $text_mask->ifthenelse($then, $else, [
@@ -119,14 +95,12 @@ $overlay = $text_mask->ifthenelse($then, $else, [
 ]);
 ```
 
-
 ```
 将图像阵列与混合模式阵列混合。
 $image = $image->composite($overlay, 'over');
 
 Image composite(Image[]|Image $in, integer[]|integer $mode, array $options = [])
 ```
-
 
 ```
 // 使用混合模式混合一对图像。
@@ -137,8 +111,6 @@ Image composite2(Image $overlay, string $mode, array $options = [])
 
 ```
 将图像嵌入到较大的图像中。
-
-
 $overlay = $overlay->embed(
     $margin,
     $page_height - $overlay->height - $margin,
@@ -151,7 +123,6 @@ $overlay = $overlay->embed(
 // $width， $height 表示生成新图片的宽高
 Image embed(integer $x, integer $y, integer $width, integer $height, array $options = [])
 ```
-
 
 ```
 rotate
