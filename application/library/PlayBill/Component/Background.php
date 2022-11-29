@@ -21,7 +21,7 @@ class Background extends AbstractComponent implements ComponentInterface
      * @return Image
      * @throws Exception
      */
-    public function run(Image $image)
+    public function run(Image $image, array $changeData = [])
     {
         $fill = $this->options->background;
 //         TODO: Implement run() method.

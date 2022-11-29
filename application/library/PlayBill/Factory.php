@@ -25,14 +25,21 @@ class Factory
 
         $image = self::createArea($data);
 
-        if (isset($data->data->backgroundImage)) {
-            $background = new BackgroundImage($data->data->backgroundImage);
-            $image = $background->run($image, $changeData);
-        } else if (isset($data->data->background)) {
-            $stdClass = new \stdClass();
-            $stdClass->background = $data->data->background;
-            $background = new Background($stdClass);
-            $image = $background->run($image, $changeData);
+        if (isset($data->data->backgroundImage) || isset($data->data->background)) {
+            if (isset($data->data->background)) {
+                $stdClass = new \stdClass();
+                $stdClass->background = $data->data->background;
+                $background = new Background($stdClass);
+                $image = $background->run($image, $changeData);
+            }
+            if (isset($data->data->backgroundImage)) {
+                $options = $data->data->backgroundImage;
+                $options->uuid = $data->data->filename;
+                $background = new BackgroundImage($options);
+                $image = $background->run($image, $changeData);
+            }
+
+
         } else {
             $image = $image->newFromImage([255, 255, 255]);
         }
