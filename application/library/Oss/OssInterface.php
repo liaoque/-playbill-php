@@ -13,4 +13,5 @@ interface OssInterface
 
     public function upload(\Upload\File $file, $newName = null);
 
+    public function getFilePath(): string;
 }

@@ -20,18 +20,17 @@ class UploadsController extends \Yaf_Controller_Abstract
             new \Upload\Validation\Size('5M')
         ));
 
-        $nameWithExtension = $file->getNameWithExtension();
+        $file->upload();
+
         $url = \AppUtils\Config::baseUrl();
         $data = array(
             'name' => $file->getNameWithExtension(),
             'extension' => $file->getExtension(),
             'mime' => $file->getMimetype(),
             'size' => $file->getSize(),
-            'url' => "{$url}/upload/{$nameWithExtension}",
+            'url' => $url . $factory->getStorage()->getFilePath(),
             'dimensions' => $file->getDimensions()
         );
-
-        $file->upload();
         return $this->getView()->assign($data);
     }
 }

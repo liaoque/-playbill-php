@@ -15,6 +15,8 @@ class Tencent extends \Upload\Storage\Base implements OssInterface
     private Client $client;
     private $bucket;
     private $config;
+    private $filePath;
+
 
     public function __construct($config)
     {
@@ -33,16 +35,16 @@ class Tencent extends \Upload\Storage\Base implements OssInterface
 
     public function put(Image $image, \stdClass $params): OssResult
     {
-        $file = date('Ymd') . '/' . $params->data->filename . '.png';
+        $fileName = date('Ymd') . '/' . $params->data->filename . '.png';
         $this->client->putObject([
             'Bucket' => $this->bucket,
-            'Key' => $file,
+            'Key' => $fileName,
             'Body' => $image->writeToBuffer('.png')
         ]);
-
+        $this->filePath = $this->bucket . '/' . $fileName;
         return new OssResult([
-            'file' => $file,
-            'src' => $file
+            'file' => $fileName,
+            'src' => $fileName
         ]);
     }
 
@@ -55,6 +57,7 @@ class Tencent extends \Upload\Storage\Base implements OssInterface
             $fileName = $file->getNameWithExtension();
         }
         $newFile = date('Ymd') . '/' . $fileName;
+        $this->filePath = $this->bucket . '/' . $fileName;
         // TODO: Implement upload() method.
         $this->client->putObject([
             'Bucket' => $this->bucket,
@@ -62,5 +65,11 @@ class Tencent extends \Upload\Storage\Base implements OssInterface
             'Body' => fopen($file->getPathname(), 'rb')
         ]);
         return true;
+    }
+
+    public function getFilePath(): string
+    {
+        // TODO: Implement getFilePath() method.
+        return $this->filePath;
     }
 }
