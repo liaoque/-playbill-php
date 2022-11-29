@@ -15,3 +15,4 @@ RUN echo deb https://mirrors.aliyun.com/debian/ bullseye main non-free contrib  
 RUN  apt-get update && apt-get install -y libvips42 && apt-get install libffi-dev
 
 
+RUN  docker-php-ext-install ffi
