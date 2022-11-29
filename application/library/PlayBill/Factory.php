@@ -38,8 +38,6 @@ class Factory
                 $background = new BackgroundImage($options);
                 $image = $background->run($image, $changeData);
             }
-
-
         } else {
             $image = $image->newFromImage([255, 255, 255]);
         }
