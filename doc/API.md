@@ -128,3 +128,12 @@ Image embed(integer $x, integer $y, integer $width, integer $height, array $opti
 rotate
 
 ```
+
+
+```
+Image::svgload_buffer("
+<svg viewBox="0 0 100 100">
+<circle r="15" cx="50" cy="18" fill="#900"/>
+</svg>
+")
+```
