@@ -7,15 +7,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9001:9000"
-    container_name: php-fpm-7.4.33
+    container_name: playbill-php-7.4.33
     networks:
       - web-network
     volumes:
       - /alidata/code/mzq/yaf:/www/html
-    privileged: true
-    user: root
-    stdin_open: true
-    tty: true
     restart: always
 
 #  nginx:

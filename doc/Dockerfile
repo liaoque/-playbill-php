@@ -17,8 +17,7 @@ RUN  apt-get update && apt-get install -y libvips42 libffi-dev zlib1g-dev apt-ut
 
 ARG timezone
 
-ENV TIMEZONE=${timezone:-"Asia/Shanghai"} \
-    COMPOSER_VERSION=2.4.4
+ENV TIMEZONE=${timezone:-"Asia/Shanghai"}
 
 
 RUN set -ex && docker-php-ext-install ffi  \
@@ -38,9 +37,4 @@ RUN set -ex && docker-php-ext-install ffi  \
 
 WORKDIR /www/html
 
-#初次安装注释掉，否则报错
-# RUN composer install --no-dev -o
 
-EXPOSE 9000
-
-CMD [ "php", "./your-script.php" ]
