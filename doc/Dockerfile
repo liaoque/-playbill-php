@@ -12,7 +12,7 @@ RUN echo deb https://mirrors.aliyun.com/debian/ bullseye main non-free contrib  
  echo deb https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib  >> /etc/apt/sources.list && \
  echo deb-src https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib  >> /etc/apt/sources.list
 
-RUN  apt-get update && apt-get install -y libvips42 && apt-get install -y libffi-dev && apt-get install -y zlib1g-dev && apt-get install -y apt-utils && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev
+RUN  apt-get update && apt-get install -y libvips42 libffi-dev zlib1g-dev apt-utils libfreetype6-dev libjpeg62-turbo-dev libpng-dev
 
 
 ARG timezone
