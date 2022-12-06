@@ -37,4 +37,16 @@ RUN set -ex && docker-php-ext-install ffi  \
 
 WORKDIR /www/html
 
+ADD --chown=www:www ./application ./application
+ADD --chown=www:www ./conf ./conf
+ADD --chown=www:www ./doc ./doc
+ADD --chown=www:www ./examples ./examples
+ADD --chown=www:www ./public ./public
+ADD --chown=www:www ./vendor ./vendor
+ADD --chown=www:www ./vips-doc ./vips-doc
+ADD --chown=www:www ./storage ./storage
+ADD --chown=www:www ./composer.json ./composer.json
+ADD --chown=www:www ./composer.lock ./composer.lock
+ADD --chown=www:www ./.gitignore ./.gitignore
+
 

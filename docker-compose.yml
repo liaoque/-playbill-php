@@ -3,7 +3,7 @@ version: '3'
 services:
   playbill:
     build:
-      context: ./
+      context: doc
       dockerfile: Dockerfile
     ports:
       - "9001:9000"
@@ -11,7 +11,7 @@ services:
     networks:
       - web-network
     volumes:
-      - /alidata/code/mzq/yaf:/www/html
+      - codefile:/www/html
     restart: always
 
 #  nginx:
@@ -65,3 +65,4 @@ networks:
 volumes:
   redisdata:
   mongodata:
+  codefile:
