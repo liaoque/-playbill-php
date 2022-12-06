@@ -12,6 +12,7 @@ services:
       - web-network
     volumes:
       - codefile:/www/html
+      - phpconfig:/usr/local/etc
     restart: always
 
 #  nginx:
@@ -66,3 +67,4 @@ volumes:
   redisdata:
   mongodata:
   codefile:
+  phpconfig:

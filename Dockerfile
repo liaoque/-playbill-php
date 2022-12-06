@@ -34,6 +34,8 @@ RUN set -ex && docker-php-ext-install ffi  \
       && mv composer.phar /usr/local/bin/composer \
       && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 
+RUN useradd www
+USER www
 
 WORKDIR /www/html
 
