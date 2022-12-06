@@ -27,17 +27,17 @@ services:
       - nginxconfig:/etc/nginx
       - codefile:/www/html
 
-  mongo:
-    image: mongo
-    networks:
-      - web-network
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-      TZ: Asia/Shanghai
-    volumes:
-      - mongodata:/data/db
+#  mongo:
+#    image: mongo
+#    networks:
+#      - web-network
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+#      TZ: Asia/Shanghai
+#    volumes:
+#      - mongodata:/data/db
 
 networks:
   web-network:
