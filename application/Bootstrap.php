@@ -12,15 +12,18 @@ include_once "../vendor/autoload.php";
 class Bootstrap extends Yaf_Bootstrap_Abstract
 {
 
-    public function _initLog()
-    {
-        Jcupitt\Vips\Config::setLogger(new Logger);
-    }
-
     public function _initConfig()
     {
         $config = Yaf_Application::app()->getConfig();
         Yaf_Registry::set("config", $config);
+    }
+
+    public function _initLog()
+    {
+        $config = Yaf_Application::app()->getConfig();
+        if ($config->get('application.vips.debug')) {
+            Jcupitt\Vips\Config::setLogger(new Logger);
+        }
     }
 
     public function _initError(Yaf_Dispatcher $dispatcher)
