@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.4-fpm as playbill-php
 
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak
 RUN > /etc/apt/sources.list
@@ -37,18 +37,27 @@ RUN set -ex && docker-php-ext-install ffi  \
 RUN useradd www
 USER www
 
-WORKDIR /www/html
+ARG PLAYBILL_PATH=/www/html/playbill
+WORKDIR ${PLAYBILL_PATH}
 
-ADD --chown=www:www ./application ./application
-ADD --chown=www:www ./conf ./conf
-ADD --chown=www:www ./doc ./doc
-ADD --chown=www:www ./examples ./examples
-ADD --chown=www:www ./public ./public
-ADD --chown=www:www ./vendor ./vendor
-ADD --chown=www:www ./vips-doc ./vips-doc
-ADD --chown=www:www ./storage ./storage
-ADD --chown=www:www ./composer.json ./composer.json
-ADD --chown=www:www ./composer.lock ./composer.lock
-ADD --chown=www:www ./.gitignore ./.gitignore
+ADD --chown=www:www ./application ${PLAYBILL_PATH}/application
+ADD --chown=www:www ./conf ${PLAYBILL_PATH}/conf
+ADD --chown=www:www ./doc ${PLAYBILL_PATH}/doc
+ADD --chown=www:www ./examples ${PLAYBILL_PATH}/examples
+ADD --chown=www:www ./public ${PLAYBILL_PATH}/public
+ADD --chown=www:www ./vendor ${PLAYBILL_PATH}/vendor
+ADD --chown=www:www ./vips-doc ${PLAYBILL_PATH}/vips-doc
+ADD --chown=www:www ./storage ${PLAYBILL_PATH}/storage
+ADD --chown=www:www ./composer.json ${PLAYBILL_PATH}/composer.json
+ADD --chown=www:www ./composer.lock ${PLAYBILL_PATH}/composer.lock
+ADD --chown=www:www ./.gitignore ${PLAYBILL_PATH}/.gitignore
+
+
+FROM nginx:alpine as playbill-nginx
+ARG PLAYBILL_PATH=/www/html/playbill
+WORKDIR ${PLAYBILL_PATH}
+
+COPY ./playbill.conf /etc/nginx/conf.d/
+
 
 

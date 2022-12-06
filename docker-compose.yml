@@ -1,13 +1,11 @@
-version: '3'
+version: '3.8'
 
 services:
   playbill:
     build:
-      context: doc
+      context: .
       dockerfile: Dockerfile
-    ports:
-      - "9001:9000"
-    container_name: playbill-php-7.4.33
+      target: playbill-php
     networks:
       - web-network
     volumes:
@@ -15,49 +13,31 @@ services:
       - phpconfig:/usr/local/etc
     restart: always
 
-#  nginx:
-#    image: nginx
-#    ports:
-#      - "80:80"
-#    container_name: nginx
-#    restart: always
-#    networks:
-#      - web-network
-#    volumes:
-#      - /root/web/nginx/nginx.conf:/etc/nginx/nginx.conf
-#      - /root/web/nginx/logs:/etc/nginx/logs
-#      - /root/web/nginx/www:/etc/nginx/www
-#      - /root/web/nginx/conf:/etc/nginx/conf.d
-    #depends_on:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: playbill-nginx
+    ports:
+      - "25556:25556"
+    restart: always
+    networks:
+      - web-network
+    volumes:
+      - nginxconfig:/etc/nginx
+      - codefile:/www/html
 
-#  redis:
-#    image: redis
-#    ports:
-#      - "6379:6379"
-#    container_name: redis
-#    networks:
-#      - web-network
-#    volumes:
-#      - redisdata:/data
-#    command: "redis-server --appendonly yes --requirepass 123456"
-#    restart: always
-#
-#  mongo:
-#    image: mongo
-#    ports:
-#      - "27017:27017"
-#    container_name: mongo
-#    networks:
-#      - web-network
-#    restart: always
-#    privileged: true
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: root
-#      TZ: Asia/Shanghai
-#    volumes:
-#      - mongodata:/data/db
-
+  mongo:
+    image: mongo
+    networks:
+      - web-network
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      TZ: Asia/Shanghai
+    volumes:
+      - mongodata:/data/db
 
 networks:
   web-network:
@@ -68,3 +48,4 @@ volumes:
   mongodata:
   codefile:
   phpconfig:
+  nginxconfig:
