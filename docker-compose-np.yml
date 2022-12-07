@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile-np
     ports:
-      - "25556:25556"
+      - "25556:80"
     networks:
       - web-network
     volumes:

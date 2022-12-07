@@ -18,8 +18,6 @@ services:
       context: .
       dockerfile: Dockerfile
       target: playbill-nginx
-    ports:
-      - "25556:25556"
     restart: always
     networks:
       - web-network

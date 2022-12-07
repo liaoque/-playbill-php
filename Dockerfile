@@ -21,7 +21,8 @@ ENV TIMEZONE=${timezone:-"Asia/Shanghai"}
 
 
 RUN set -ex && docker-php-ext-install ffi  \
-     && docker-php-ext-install gd \
+      && echo ffi.enable=true >> /usr/local/etc/php/conf.d/docker-php-ext-ffi.ini \
+      && docker-php-ext-install gd \
       && pecl channel-update pecl.php.net \
       && pecl install mongodb \
       && touch /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini \
@@ -33,6 +34,7 @@ RUN set -ex && docker-php-ext-install ffi  \
       && php composer-setup.php \
       && mv composer.phar /usr/local/bin/composer \
       && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+
 
 RUN useradd www
 USER www
