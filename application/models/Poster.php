@@ -52,9 +52,9 @@ class PosterModel
     }
 
 
-    public function getAll($page, $limit)
+    public function getAll($filter, $page, $limit)
     {
-        $query = new MongoDB\Driver\Query([], [
+        $query = new MongoDB\Driver\Query($filter, [
             'skip' => ($page - 1) * $limit,
             'limit' => $limit,
             'projection' => ['data' => 0]

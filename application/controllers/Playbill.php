@@ -86,8 +86,16 @@ class PlaybillController extends Yaf_Controller_Abstract
 
     public function templatesAction($page = 1, $limit = 10)
     {
+        $keyword = $this->getRequest()->getQuery("keyword", "");
+        $filter = [];
+        if ($keyword) {
+            $filter = [
+                'title' => new \MongoDB\BSON\Regex($keyword)
+            ];
+        }
+
         $poster = new PosterModel();
-        $result = $poster->getAll($page, $limit);
+        $result = $poster->getAll($filter, $page, $limit);
 
         $result = array_map(function ($item) {
             if (empty($item->src)) {
@@ -95,7 +103,7 @@ class PlaybillController extends Yaf_Controller_Abstract
             }
             return [
                 'id' => $item->_id->__toString(),
-                'src' => \AppUtils\Config::baseUrl($item->src) ,
+                'src' => \AppUtils\Config::baseUrl($item->src),
             ];
         }, $result->toArray());
 
