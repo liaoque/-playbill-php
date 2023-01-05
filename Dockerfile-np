@@ -60,3 +60,9 @@ RUN useradd nginx
 ENTRYPOINT ["nginx"]
 
 
+COPY ./docker-php-entrypoint-np /usr/local/bin/docker-php-entrypoint-np
+RUN chmod +x  /usr/local/bin/docker-php-entrypoint-np
+
+
+ENTRYPOINT ["docker-php-entrypoint-np"]
+CMD ["php-fpm"]

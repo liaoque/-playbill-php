@@ -22,6 +22,7 @@ class PlaybillController extends Yaf_Controller_Abstract
         return \AppResponse\AppResponse::success([
             'id' => $row->_id->__toString(),
             'data' => $row->data,
+            'title' => $row->title,
         ]);
     }
 
@@ -37,6 +38,7 @@ class PlaybillController extends Yaf_Controller_Abstract
             throw new Yaf_Exception('参数不能为空', \AppResponse\AppResponsePlayBill::PARAMS_EMPTY);
         }
         $params2 = json_decode(json_encode($params));
+
         $out = \PlayBill\Factory::load($params2);
         if (empty($out)) {
             throw new Yaf_Exception('参数不正确', \AppResponse\AppResponsePlayBill::PARAMS_VIPS);
@@ -47,6 +49,9 @@ class PlaybillController extends Yaf_Controller_Abstract
 
         $poster = new PosterModel();
         $params['src'] = $ossResult->getSrc();
+        $title = $params['data']['title'];
+        unset($params['data']['title']);
+        $params['title'] = $title;
         $oid = $poster->save($params);
 
         return \AppResponse\AppResponse::success([
@@ -104,6 +109,7 @@ class PlaybillController extends Yaf_Controller_Abstract
             return [
                 'id' => $item->_id->__toString(),
                 'src' => \AppUtils\Config::baseUrl($item->src),
+                'title' => $item->title,
             ];
         }, $result->toArray());
 
