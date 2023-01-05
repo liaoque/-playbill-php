@@ -1,0 +1,31 @@
+FROM libvips-ubuntu:v8.13.3
+
+
+ADD doc/playbill-nginx.conf /etc/nginx/conf.d/
+ADD doc/www.conf /etc/php/7.4/fpm/pool.d/
+ADD doc/docker-php-entrypoint /usr/local/bin/
+
+RUN sed -i 's/user www-data/user www/g' /etc/nginx/nginx.conf
+RUN chmod +x /usr/local/bin/docker-php-entrypoint
+RUN chown www:www /var/lib/nginx -R
+RUN alias php-fpm="php-fpm7.4 -F"
+
+
+ARG PLAYBILL_PATH=/www/html/playbill
+WORKDIR ${PLAYBILL_PATH}
+
+ADD --chown=www:www ./application ${PLAYBILL_PATH}/application
+ADD --chown=www:www ./conf ${PLAYBILL_PATH}/conf
+ADD --chown=www:www ./doc ${PLAYBILL_PATH}/doc
+ADD --chown=www:www ./examples ${PLAYBILL_PATH}/examples
+ADD --chown=www:www ./public ${PLAYBILL_PATH}/public
+ADD --chown=www:www ./vendor ${PLAYBILL_PATH}/vendor
+ADD --chown=www:www ./vips-doc ${PLAYBILL_PATH}/vips-doc
+ADD --chown=www:www ./storage ${PLAYBILL_PATH}/storage
+ADD --chown=www:www ./composer.json ${PLAYBILL_PATH}/composer.json
+ADD --chown=www:www ./composer.lock ${PLAYBILL_PATH}/composer.lock
+ADD --chown=www:www ./.gitignore ${PLAYBILL_PATH}/.gitignore
+
+
+ENTRYPOINT ["docker-php-entrypoint"]
+CMD ["php-fpm7.4", "-F"]

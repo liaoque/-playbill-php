@@ -59,13 +59,14 @@ cmake .. # Don't forget to set optimization level!
 make
 make install
 ln -s /usr/local/lib/libspng.so /usr/lib/libspng.so 
-ln -s /usr/lib64/pkgconfig/libspng.pc /usr/local/lib64/pkgconfig/libspng.pc 
+ln -s  /usr/local/lib64/pkgconfig/libspng.pc /usr/lib64/pkgconfig/libspng.pc 
 
 - 要求 libimagequant, quantizr 才可以用cgif
 git clone https://github.com/dloebl/cgif
 cd cgif/
 meson setup --prefix=/usr build
-meson install -C build
+meson install
+
 
 wget https://github.com/webmproject/libwebp/archive/refs/tags/v1.2.4.tar.gz
 tar -zxvf v1.2.4.tar.gz
@@ -78,6 +79,8 @@ ln -s  /usr/local/lib64/pkgconfig/libwebpdecoder.pc  /usr/lib64/pkgconfig/libweb
 ln -s  /usr/local/lib64/pkgconfig/libwebpdemux.pc  /usr/lib64/pkgconfig/libwebpdemux.pc
 ln -s  /usr/local/lib64/pkgconfig/libwebpmux.pc  /usr/lib64/pkgconfig/libwebpmux.pc
 
+
+wget https://objects.githubusercontent.com/github-production-release-asset-2e65be/1291410/c040fe7c-11aa-45ee-9420-f1a7cf1d8576?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20221214%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221214T070603Z&X-Amz-Expires=300&X-Amz-Signature=4c572e7350457ace4ea4d4e153f7b48a97a220e65ab27998f7374b83916479e8&X-Amz-SignedHeaders=host&actor_id=7441370&key_id=0&repo_id=1291410&response-content-disposition=attachment%3B%20filename%3Dvips-8.13.3.tar.gz&response-content-type=application%2Foctet-stream
 rm -rf build-dir
 meson setup build-dir
 cd build-dir/
@@ -118,4 +121,20 @@ make && make install
 ```
 
 #### 开启[FFI](https://www.php.net/manual/zh/book.ffi.php)
+
+yum install epel-release
+
+yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+
+yum install yum-utils
+
+yum install php74-php-devel php74-php-pear.noarch \
+             php74-php-curl php74-php-fpm php74-php-gd \
+              php74-php-mbstring php74-php-zip php74-php-pecl-yaf.x86_64 
+
+
+
+
+
+
 
