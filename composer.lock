@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "371fb7c725469424b1cbe4dfddb8c33e",
+    "content-hash": "25b26671a920d70c68793164dc3843ee",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -113,6 +113,49 @@
                 "source": "https://github.com/brandonsavage/Upload/tree/1.3.2"
             },
             "time": "2013-07-07T17:01:41+00:00"
+        },
+        {
+            "name": "eelly/fastdfs",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EellyDev/fastdfs.git",
+                "reference": "5558b12b13da528a6f55c0d2839a221b1295b1e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EellyDev/fastdfs/zipball/5558b12b13da528a6f55c0d2839a221b1295b1e2",
+                "reference": "5558b12b13da528a6f55c0d2839a221b1295b1e2",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Eelly\\FastDFS\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eelly",
+                    "homepage": "https://www.eelly.com"
+                }
+            ],
+            "description": "fastdfs client",
+            "support": {
+                "issues": "https://github.com/EellyDev/fastdfs/issues",
+                "source": "https://github.com/EellyDev/fastdfs/tree/master"
+            },
+            "time": "2018-09-26T03:49:52+00:00"
         },
         {
             "name": "guzzlehttp/command",
