@@ -15,7 +15,7 @@ playbill是一款快速开发海报的工具。只需上传一张背景图，在
 ##### 1.docker安装
 如果有现成的mongodb数据库,可以注释掉`doc/docker-compose-install.yml`的mongo部分
 ```shell script
-docker-compose -f doc/docker-compose-install.yml up
+docker-compose -f doc/docker-compose-install.yml up -d
 ```
 ##### 2.修改数据库配置文件`conf/database.ini`
 ```shell script
