@@ -9,25 +9,25 @@ class Factory
 {
     protected OssInterface $oss;
 
+    protected array $uploadTools = [
+        'local' => Local::class,
+        'aliyun' => Aliyun::class,
+        'tencent' => Tencent::class,
+        'fastdfs' => FastDfs::class,
+    ];
+
     public function __construct(\Yaf_Config_Ini $config = null)
     {
         if (empty($config)) {
             $config = Config::get('oss');
         }
 
-        $local = $config->get('local');
-        if ($local->enabled) {
-            $this->oss = new Local($local);
-        }
-
-        $aliyun = $config->get('aliyun');
-        if ($aliyun->enabled) {
-            $this->oss = new Aliyun($aliyun);
-        }
-
-        $tencent = $config->get('tencent');
-        if ($tencent->enabled) {
-            $this->oss = new Tencent($tencent);
+        foreach ($this->uploadTools as $key => $value) {
+            $local = $config->get($key);
+            if ($local->enabled) {
+                $this->oss = new $value($local);
+                break;
+            }
         }
     }
 
