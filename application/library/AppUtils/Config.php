@@ -40,7 +40,7 @@ class Config
 
     public static function baseUrl($url = '')
     {
-        $var = \Yaf_Dispatcher::getInstance()->getApplication()->getConfig()->get('oss.base_url');
+        $var = self::get('oss')['oss']['base_url'];
         return rtrim($var, '/') . '/' . ltrim($url, '/');
     }
 }
