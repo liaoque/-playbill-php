@@ -39,7 +39,7 @@ class FastDfs implements OssInterface
                 mkdir(Config::rootPath($this->config->get('path') . '/img/'));
             }
             mkdir($rootPath);
-            chmod($rootPath, 666);
+            chmod($rootPath, 0755);
         }
         $file = $rootPath . '/' . $params->data->filename . '.png';
         $image->writeToFile($file);
