@@ -9,11 +9,7 @@ use Jcupitt\Vips\Image;
 class FastDfs implements OssInterface
 {
 
-
-    /**
-     * @var OssClient
-     */
-    private OssClient $client;
+    private \Eelly\FastDFS\Client $client;
     private $config;
     private ?string $filePath;
 
@@ -22,10 +18,11 @@ class FastDfs implements OssInterface
 
         $this->config = $config;
 
+        $port = $config->get('port');
         $this->client = new \Eelly\FastDFS\Client([
             'host' => $config->get('host'),
-            'port' => $config->get('port'),
-            'group' => $config->get('group'),
+            'port' => intval($port),
+            'group' => $config->get('group')->toArray(),
         ]);
     }
 
