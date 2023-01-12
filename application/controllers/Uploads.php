@@ -29,8 +29,7 @@ class UploadsController extends \Yaf_Controller_Abstract
         );
 
         $file->upload();
-        $url = \AppUtils\Config::baseUrl();
-        $data['url'] = $url . $factory->getStorage()->getFilePath();
+        $data['url'] = \AppUtils\Config::baseUrl($factory->getStorage()->getFilePath());
 
         return $this->getView()->assign($data);
     }

@@ -6,17 +6,18 @@ namespace Oss;
 use AppUtils\Config;
 use Jcupitt\Vips\Image;
 
-class FastDfs implements OssInterface
+class FastDfs extends \Upload\Storage\Base implements OssInterface
 {
 
     private \Eelly\FastDFS\Client $client;
     private $config;
-    private ?string $filePath;
+    private string $filePath;
 
     public function __construct($config)
     {
 
         $this->config = $config;
+        $this->filePath = "";
 
         $port = $config->get('port');
         $this->client = new \Eelly\FastDFS\Client([
@@ -53,7 +54,8 @@ class FastDfs implements OssInterface
     public function upload(\Upload\File $file, $newName = null)
     {
         // TODO: Implement upload() method.
-        $this->client->uploadFile($file->getRealPath());
+        $uploadFile = $this->client->uploadFile($file->getRealPath());
+        $this->filePath = $uploadFile;
         return true;
 
     }
