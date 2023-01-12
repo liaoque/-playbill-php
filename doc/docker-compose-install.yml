@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   playbill:
-    image: liaoque/playbill-php:v1.1
+    image: liaoque/playbill-php:v1.2
     ports:
       - "25556:8080"
     networks:
