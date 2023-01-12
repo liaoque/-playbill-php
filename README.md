@@ -21,9 +21,21 @@ docker-compose -f doc/docker-compose-install.yml up -d
 ```shell script
 master.database='mongodb://root:63bbc509a3@mongo:27017'
 ```
-##### 3.修改数据库配置文件`conf/oss.ini`
+##### 3.修改图片配置文件`conf/oss.ini`
 ```shell script
 oss.base_url=='https://图片的域名'
+# 默认使用本地存储
+local.enabled=true
+local.path=/public #存储路径
+
+#使用阿里云oss改成true 并把其他选项改成false。 如local.enabled=false 
+aliyun.enabled=true  
+aliyun.path=/public
+aliyun.accessKeyId=
+aliyun.accessKeySecret=
+aliyun.endpoint=
+aliyun.bucket=
+
 ```
 ##### 4.编辑海报
 ![编辑海报](./doc/1673255586846.jpg)
