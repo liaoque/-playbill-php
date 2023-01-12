@@ -21,10 +21,14 @@ docker-compose -f doc/docker-compose-install.yml up -d
 ```shell script
 master.database='mongodb://root:63bbc509a3@mongo:27017'
 ```
-##### 3.编辑海报
+##### 3.修改数据库配置文件`conf/oss.ini`
+```shell script
+oss.base_url=='https://图片的域名'
+```
+##### 4.编辑海报
 ![编辑海报](./doc/1673255586846.jpg)
 
-##### 4.生成代码
+##### 5.生成代码
 ![编辑海报](./doc/1673255676472.jpg)
 
 源码安装
