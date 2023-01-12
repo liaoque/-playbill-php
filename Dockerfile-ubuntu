@@ -1,4 +1,4 @@
-FROM libvips-ubuntu:v8.13.3
+FROM liaoque/playbill-php:v0.1.ubuntu
 
 
 ADD doc/playbill-nginx.conf /etc/nginx/conf.d/
