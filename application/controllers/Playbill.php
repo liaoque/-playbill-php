@@ -62,30 +62,37 @@ class PlaybillController extends Yaf_Controller_Abstract
 
     /**
      * @param string $id
+     * @param int $base64
      * @return mixed
      * @throws Vips\Exception
      * @throws Yaf_Exception
      * @throws \MongoDB\Driver\Exception\Exception
      */
-    public function viewAction($id = '')
+    public function viewAction($id = '', $base64 = 0)
     {
         if (empty($id)) {
             $params = $this->getRequest()->getParams();
             if (empty($params)) {
                 throw new Yaf_Exception('参数不能为空', \AppResponse\AppResponsePlayBill::PARAMS_EMPTY);
             }
-
             $params = json_decode(json_encode($params));
             $out = \PlayBill\Factory::load($params);
-            $writeToBuffer1 = $out->writeToBuffer(".png");
-            return \AppResponse\AppResponse::success(['src' => "data:image/png;base64," . base64_encode($writeToBuffer1)]);
+        } else {
+            $params = $this->getRequest()->getParams();
+            $poster = new PosterModel();
+            $data = $poster->getRowById($id);
+            $out = \PlayBill\Factory::load($data, $params);
+            $params = $data;
         }
-        $params = $this->getRequest()->getParams();
-        $poster = new PosterModel();
-        $data = $poster->getRowById($id);
-        $out = \PlayBill\Factory::load($data, $params);
-        $writeToBuffer1 = $out->writeToBuffer(".png");
-        return \AppResponse\AppResponse::success(['src' => "data:image/png;base64," . base64_encode($writeToBuffer1)]);
+
+        if ($base64) {
+            $writeToBuffer1 = $out->writeToBuffer( $params->data->mime_type);
+            $mimeType = trim($params->data->mime_type, ".");
+            return \AppResponse\AppResponse::success(['src' => "data:image/{$mimeType};base64," . base64_encode($writeToBuffer1)]);
+        }
+        $factory = new \Oss\Factory();
+        $ossResult = $factory->put($out, $params);
+        return \AppResponse\AppResponse::success(['src' => \AppUtils\Config::baseUrl($ossResult->getSrc())]);
     }
 
 

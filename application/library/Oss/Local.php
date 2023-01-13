@@ -33,12 +33,12 @@ class Local extends \Upload\Storage\Base implements OssInterface
             chmod($rootPath, 0755);
         }
 
-        $file = $rootPath . '/' . $params->data->filename . '.png';
+        $file = $rootPath . '/' . $params->data->filename . $params->data->mime_type;
         $image->writeToFile($file);
-        $this->filePath = $srcRoot . '/' . $params->data->filename . '.png';
+        $this->filePath = $srcRoot . '/' . $params->data->filename .$params->data->mime_type;
         return new OssResult([
             'file' => $file,
-            'src' => $srcRoot . '/' . $params->data->filename . '.png'
+            'src' => $srcRoot . '/' . $params->data->filename . $params->data->mime_type
         ]);
     }
 

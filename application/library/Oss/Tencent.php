@@ -35,11 +35,11 @@ class Tencent extends \Upload\Storage\Base implements OssInterface
 
     public function put(Image $image, \stdClass $params): OssResult
     {
-        $fileName = date('Ymd') . '/' . $params->data->filename . '.png';
+        $fileName = date('Ymd') . '/' . $params->data->filename .$params->data->mime_type;
         $this->client->putObject([
             'Bucket' => $this->bucket,
             'Key' => $fileName,
-            'Body' => $image->writeToBuffer('.png')
+            'Body' => $image->writeToBuffer($params->data->mime_type)
         ]);
         $this->filePath = $this->bucket . '/' . $fileName;
         return new OssResult([

@@ -39,7 +39,7 @@ class FastDfs extends \Upload\Storage\Base implements OssInterface
             mkdir($rootPath);
             chmod($rootPath, 0755);
         }
-        $file = $rootPath . '/' . $params->data->filename . '.png';
+        $file = $rootPath . '/' . $params->data->filename . $params->data->mime_type;
         $image->writeToFile($file);
 
         $uploadFile = $this->client->uploadFile($file);
