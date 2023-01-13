@@ -68,7 +68,7 @@ class PlaybillController extends Yaf_Controller_Abstract
      * @throws Yaf_Exception
      * @throws \MongoDB\Driver\Exception\Exception
      */
-    public function viewAction($id = '', $base64 = 0)
+    public function viewAction($id = '', $base64 = 1)
     {
         if (empty($id)) {
             $params = $this->getRequest()->getParams();
