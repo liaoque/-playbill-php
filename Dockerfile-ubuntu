@@ -26,6 +26,8 @@ ADD --chown=www:www ./composer.json ${PLAYBILL_PATH}/composer.json
 ADD --chown=www:www ./composer.lock ${PLAYBILL_PATH}/composer.lock
 ADD --chown=www:www ./.gitignore ${PLAYBILL_PATH}/.gitignore
 
+RUN ln -s ${PLAYBILL_PATH}/public/dist ./public/dist/public
+
 
 ENTRYPOINT ["docker-php-entrypoint"]
 CMD ["php-fpm7.4", "-F"]
