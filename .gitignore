@@ -1,1 +1,7 @@
 vendor
+.idea
+public/upload
+
+/examples/
+/public/tiny2.png
+/examples/

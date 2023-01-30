@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  playbill:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: playbill-php
+    networks:
+      - web-network
+    volumes:
+      - codefile:/www/html
+      - phpconfig:/usr/local/etc
+    restart: always
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: playbill-nginx
+    restart: always
+    networks:
+      - web-network
+    volumes:
+      - nginxconfig:/etc/nginx
+      - codefile:/www/html
+
+#  mongo:
+#    image: mongo
+#    networks:
+#      - web-network
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+#      TZ: Asia/Shanghai
+#    volumes:
+#      - mongodata:/data/db
+
+networks:
+  web-network:
+    external: true
+
+volumes:
+  redisdata:
+  mongodata:
+  codefile:
+  phpconfig:
+  nginxconfig:
